@@ -1,11 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
-        <RootNamespace>PlowTracer_Core</RootNamespace>
         <LangVersion>latest</LangVersion>
-        <ImplicitUsings>enable</ImplicitUsings>
+        <Version>2025.1.0</Version>
+        <AssemblyName>PlowTracer.Core</AssemblyName>
+        <RootNamespace>PlowTracer.Core</RootNamespace>
+        <Authors>Matt Heimlich</Authors>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
+        <WarningsAsErrors>Nullable</WarningsAsErrors>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+        <PublishAot>True</PublishAot>
+        <Copyright>2025</Copyright>
     </PropertyGroup>
 
 </Project>

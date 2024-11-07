@@ -12,7 +12,6 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
         <PublishAot>True</PublishAot>
-        <Company>SteelCloud, LLC</Company>
         <Copyright>2025</Copyright>
     </PropertyGroup>
 
