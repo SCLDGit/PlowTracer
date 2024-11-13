@@ -1,0 +1,26 @@
+﻿<layout:LayoutGroup xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:layout="clr-namespace:PlowTracer.GUI.Views.Controls.Layout"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="PlowTracer.GUI.Views.Controls.Layout.LayoutGroup"
+             Grid.IsSharedSizeScope="True"
+             x:Name="Root">
+    
+    <layout:LayoutGroup.Template>
+        <ControlTemplate TargetType="layout:LayoutGroup">
+            <ItemsPresenter x:Name="PART_ItemsPresenter"
+                            Grid.IsSharedSizeScope="True"
+                            ItemsPanel="{TemplateBinding ItemsPanel}" />
+        </ControlTemplate>
+    </layout:LayoutGroup.Template>
+    
+    <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+            <StackPanel Orientation="{Binding Orientation, ElementName=Root}" 
+                        Spacing="{Binding ItemsSpacing, ElementName=Root}"/>
+        </ItemsPanelTemplate>
+    </ItemsControl.ItemsPanel>
+    
+</layout:LayoutGroup>

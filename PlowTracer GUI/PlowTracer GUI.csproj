@@ -23,12 +23,14 @@
 
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="11.2.0" />
+        <PackageReference Include="Avalonia.Controls.PanAndZoom" Version="11.2.0" />
         <PackageReference Include="Avalonia.Desktop" Version="11.2.0" />
         <PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.0" />
         <PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.0" />
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.0" />
         <PackageReference Include="Avalonia.ReactiveUI" Version="11.2.0" />
+        <PackageReference Include="Material.Icons.Avalonia" Version="2.1.10" />
 
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
@@ -44,5 +46,18 @@
         <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
         <PackageReference Include="Serilog.Sinks.EventLog" Version="4.0.0" />
         <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="appsettings.Development.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PlowTracer Core\PlowTracer Core.csproj" />
     </ItemGroup>
 </Project>

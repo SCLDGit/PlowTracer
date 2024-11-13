@@ -6,11 +6,9 @@
         <AssemblyName>PlowTracer.Core</AssemblyName>
         <RootNamespace>PlowTracer.Core</RootNamespace>
         <Authors>Matt Heimlich</Authors>
-        <OutputType>WinExe</OutputType>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <WarningsAsErrors>Nullable</WarningsAsErrors>
-        <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
         <PublishAot>True</PublishAot>
         <Copyright>2025</Copyright>

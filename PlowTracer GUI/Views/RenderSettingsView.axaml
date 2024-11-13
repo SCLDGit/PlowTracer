@@ -1,0 +1,43 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:layout="clr-namespace:PlowTracer.GUI.Views.Controls.Layout"
+             xmlns:viewModels="clr-namespace:PlowTracer.GUI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="PlowTracer.GUI.Views.RenderSettingsView"
+             x:DataType="viewModels:MainWindowViewModel">
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                  VerticalScrollBarVisibility="Auto">
+        <StackPanel Orientation="Vertical">
+            <layout:CardContainer>
+                <layout:CardContainer.HeaderContent>
+                    <layout:CardTitleHeader IconKind="MonitorShimmer"
+                                            Title="Kernel" />
+                </layout:CardContainer.HeaderContent>
+                <layout:LayoutGroup ItemsSpacing="4">
+                    <layout:LayoutItem Label="Renderer:">
+                        <ComboBox ItemsSource="{Binding RenderKernels}"
+                                  SelectedItem="{Binding SelectedRenderKernel}" />
+                    </layout:LayoutItem>
+                </layout:LayoutGroup>
+            </layout:CardContainer>
+            <layout:CardContainer>
+                <layout:CardContainer.HeaderContent>
+                    <layout:CardTitleHeader IconKind="ImageSizeSelectLarge"
+                                            Title="Output" />
+                </layout:CardContainer.HeaderContent>
+                <layout:LayoutGroup ItemsSpacing="4">
+                    <layout:LayoutItem Label="Width:">
+                        <NumericUpDown Value="{Binding RenderWidth}" />
+                    </layout:LayoutItem>
+                    <layout:LayoutItem Label="Height:">
+                        <NumericUpDown Value="{Binding RenderHeight}" />
+                    </layout:LayoutItem>
+                </layout:LayoutGroup>
+            </layout:CardContainer>
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>
