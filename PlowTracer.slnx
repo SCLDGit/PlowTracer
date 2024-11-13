@@ -1,4 +1,5 @@
 ﻿<Solution>
+  <Project Path="PlowTracer Core Tests\PlowTracer Core Tests.csproj" Type="Classic C#" />
   <Project Path="PlowTracer Core\PlowTracer Core.csproj" Type="Classic C#" />
   <Project Path="PlowTracer GUI\PlowTracer GUI.csproj" Type="Classic C#" />
 </Solution>

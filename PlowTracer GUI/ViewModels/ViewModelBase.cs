@@ -1,5 +1,5 @@
 ﻿using ReactiveUI;
 
-namespace PlowTracer.ViewModels;
+namespace PlowTracer.GUI.ViewModels;
 
 public class ViewModelBase : ReactiveObject { }

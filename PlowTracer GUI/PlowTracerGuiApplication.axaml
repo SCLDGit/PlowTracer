@@ -1,10 +1,179 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialIcon="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:layout="clr-namespace:PlowTracer.GUI.Views.Controls.Layout"
              x:Class="PlowTracer.GUI.PlowTracerGuiApplication"
-             RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+             RequestedThemeVariant="Light">
   
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Dark">
+                    <Color x:Key="IconColor">#ffffffff</Color>
+                    
+                    <Color x:Key="TopLevelDark">#ff0f0f0f</Color>
+                    <Color x:Key="TopLevelLight">#ff1f2034</Color>
+        
+                    <Color x:Key="BackgroundDark">#ff1d1d1d</Color>
+                    <Color x:Key="BackgroundLight">#ff252525</Color>
+        
+                    <Color x:Key="CardBackgroundDark">#ff1a1a1a</Color>
+                    <Color x:Key="CardBackgroundLight">#ff2a2a2a</Color>
+        
+                    <Color x:Key="AccentDark">#ff303030</Color>
+                    <Color x:Key="AccentLight">#ff6d6d6d</Color>
+                    
+                    <Color x:Key="Checker">#ff202020</Color>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Light">
+                    <Color x:Key="IconColor">#ff303030</Color>
+                    
+                    <Color x:Key="TopLevelDark">#ffaaaaaa</Color>
+                    <Color x:Key="TopLevelLight">#ffcacaca</Color>
+        
+                    <Color x:Key="BackgroundDark">#fff0f0f0</Color>
+                    <Color x:Key="BackgroundLight">#fff5f5f5</Color>
+        
+                    <Color x:Key="CardBackgroundDark">#ffbababa</Color>
+                    <Color x:Key="CardBackgroundLight">#ffdadada</Color>
+        
+                    <Color x:Key="AccentDark">#fff0f0f0</Color>
+                    <Color x:Key="AccentLight">#ffffffff</Color>
+                    
+                    <Color x:Key="Checker">#ffb0b0b0</Color>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+        
+        
+        <RadialGradientBrush x:Key="BackgroundGradient"
+                             RadiusX="120%"
+                             RadiusY="200%"
+                             Center="100%, 0%"
+                             GradientOrigin="100%, 0%">
+            <RadialGradientBrush.GradientStops>
+                <GradientStop Color="{DynamicResource BackgroundLight}" Offset="0" />
+                <GradientStop Color="{DynamicResource BackgroundDark}" Offset="1" />
+            </RadialGradientBrush.GradientStops>
+        </RadialGradientBrush>
+        
+        <LinearGradientBrush x:Key="CardBorderGradient" 
+                             StartPoint="0%,50%" 
+                             EndPoint="100%,50%">
+            <GradientStop Color="{DynamicResource AccentDark}" Offset="0" />
+            <GradientStop Color="{DynamicResource AccentLight}" Offset="1" />
+        </LinearGradientBrush>
+        
+        <RadialGradientBrush x:Key="CardGradient"
+                             RadiusX="120%"
+                             RadiusY="200%"
+                             Center="100%, 0%"
+                             GradientOrigin="100%, 100%">
+            <RadialGradientBrush.GradientStops>
+                <GradientStop Color="{DynamicResource CardBackgroundLight}" Offset="0" />
+                <GradientStop Color="{DynamicResource CardBackgroundDark}" Offset="1" />
+            </RadialGradientBrush.GradientStops>
+        </RadialGradientBrush>
+        
+        <CornerRadius x:Key="ContainerRadius">10</CornerRadius>
+        
+        <Thickness x:Key="CardPadding">8</Thickness>
+        <Thickness x:Key="CardTitleLabelMargin">4, 0, 0, 0</Thickness>
+        <x:Double x:Key="CardTitleIconSize">18</x:Double>
+        <Thickness x:Key="CardBorderThickness">1</Thickness>
+        <Thickness x:Key="CardHeaderBorderThickness">0, 0, 0, 1</Thickness>
+        <CornerRadius x:Key="CardCornerRadius">10</CornerRadius>
+    </Application.Resources>
+    
     <Application.Styles>
         <FluentTheme />
+        <materialIcon:MaterialIconStyles />
+        
+        <Style Selector="layout|InsetContainer">
+            <Setter Property="Background" Value="{StaticResource BackgroundGradient}" />
+        </Style>
+        
+        <Style Selector="GridSplitter">
+            <Setter Property="ResizeBehavior" Value="PreviousAndNext" />
+            <Setter Property="Background" Value="DimGray" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Property="Height" Duration="0:0:0.05" />
+                    <DoubleTransition Property="Width" Duration="0:0:0.05" />
+                </Transitions>
+            </Setter>
+        </Style>
+        <Style Selector="GridSplitter.horizontal">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="ResizeDirection" Value="Rows"/>
+            <Setter Property="MinHeight" Value="1"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Height" Value="3" />
+            
+            <Style Selector="^:pointerover">
+                <Setter Property="Width" Value="175"/>
+                <Setter Property="Height" Value="5"/>
+            </Style>
+        </Style>
+        <Style Selector="GridSplitter.vertical">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="ResizeDirection" Value="Columns"/>
+            <Setter Property="MinWidth" Value="1"/>
+            <Setter Property="Width" Value="3"/>
+            <Setter Property="Height" Value="150" />
+            
+            <Style Selector="^:pointerover">
+                <Setter Property="Width" Value="5"/>
+                <Setter Property="Height" Value="175"/>
+            </Style>
+        </Style>
+        
+        <Style Selector="layout|IconLabel.cardTitle">
+            <Style Selector="^ materialIcon|MaterialIcon">
+                <Setter Property="Width" Value="{DynamicResource CardTitleIconSize}" />
+                <Setter Property="Height" Value="{DynamicResource CardTitleIconSize}" />
+            </Style>
+            <Style Selector="^ TextBlock">
+                <Setter Property="Margin" Value="{DynamicResource CardTitleLabelMargin}" />
+                <Setter Property="FontSize" Value="10" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+            </Style>
+        </Style>
+        
+        <Style Selector="layout|IconLabel.itemLabel">
+            <Style Selector="^ materialIcon|MaterialIcon">
+                <Setter Property="Width" Value="{DynamicResource LabelIconSize}" />
+                <Setter Property="Height" Value="{DynamicResource LabelIconSize}" />
+            </Style>
+            <Style Selector="^ TextBlock">
+                <Setter Property="Margin" Value="{DynamicResource CardTitleLabelMargin}" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+            </Style>
+        </Style>
+
+        <Style Selector="Button.standard">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Style Selector="^ TextBlock">
+                <Setter Property="FontSize" Value="10" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Margin" Value="4, 0, 0, 0" />
+            </Style>
+            <Style Selector="^ materialIcon|MaterialIcon">
+                <Setter Property="Width" Value="18" />
+                <Setter Property="Height" Value="18" />
+            </Style>
+            <Style Selector="^ TextBlock">
+                <Setter Property="FontSize" Value="14" />
+            </Style>
+        </Style>
     </Application.Styles>
 </Application>

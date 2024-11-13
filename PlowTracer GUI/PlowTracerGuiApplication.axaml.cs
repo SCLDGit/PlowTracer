@@ -12,7 +12,7 @@ using PlowTracer.GUI.Models.DataStructures.Logging;
 using PlowTracer.GUI.Models.Global.IO.Files;
 using PlowTracer.GUI.ViewModels;
 using PlowTracer.GUI.ViewModels.Utilities;
-using PlowTracer.Views;
+using PlowTracer.GUI.Views;
 
 using Serilog;
 using Serilog.Events;
@@ -34,7 +34,7 @@ internal class PlowTracerGuiApplication : Application
     {
         if ( ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop )
         {
-            desktop.MainWindow = new MainWindow();
+            desktop.MainWindow = new MainWindowView();
         }
 
         base.OnFrameworkInitializationCompleted();
@@ -75,13 +75,13 @@ internal class PlowTracerGuiApplication : Application
 
         var loggerConfiguration = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
                                                            .Enrich.FromLogContext()
+                                                           .WriteTo.Sink(new CollectionSink())
                                                        #if !DEBUG
                                                        // Exclude Debug logs in Release configurations. - Comment by Matt Heimlich on 10/25/2024 @ 14:57:17
-                                                       .Filter.ByExcluding(p_event => p_event.Level == LogEventLevel.Debug)
+                                                       // .Filter.ByExcluding(p_event => p_event.Level == LogEventLevel.Debug)
                                                        #else
                                                            // Otherwise, write all logs to Debug loggers as well. - Comment by Matt Heimlich on 10/25/2024 @ 14:59:26
                                                            .WriteTo.Debug()
-                                                           .WriteTo.Sink(new CollectionSink())
                                                            .WriteTo.Logger(p_configuration => p_configuration
                                                                                               .Filter.ByIncludingOnly(p_event =>
                                                                                                                       {

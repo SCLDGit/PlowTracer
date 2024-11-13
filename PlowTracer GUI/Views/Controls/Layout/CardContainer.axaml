@@ -1,0 +1,38 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:layout="clr-namespace:PlowTracer.GUI.Views.Controls.Layout"
+             xmlns:converters="clr-namespace:PlowTracer.GUI.Models.Converters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="PlowTracer.GUI.Views.Controls.Layout.CardContainer">
+
+    <UserControl.Template>
+        <ControlTemplate TargetType="layout:CardContainer">
+            <Border Padding="{TemplateBinding ShowShadow, Converter={x:Static converters:BoxShadowConverters.CardThicknessConverter}}">
+                <Border Background="{DynamicResource CardGradient}"
+                        CornerRadius="{StaticResource CardCornerRadius}"
+                        BorderBrush="{DynamicResource CardBorderGradient}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                    <Border.BoxShadow>
+                        <TemplateBinding Property="ShowShadow" 
+                                 Converter="{x:Static converters:BoxShadowConverters.BoxShadowConverter}" />
+                    </Border.BoxShadow>
+                    <Grid RowDefinitions="Auto, *">
+                        <Border Grid.Row="0"
+                                IsVisible="{TemplateBinding HeaderContent, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                BorderThickness="{StaticResource CardHeaderBorderThickness}"
+                                BorderBrush="{StaticResource CardBorderGradient}">
+                            <ContentControl Content="{TemplateBinding HeaderContent}" />
+                        </Border>
+                        <Border Grid.Row="1"
+                                Padding="{StaticResource CardPadding}">
+                            <ContentControl Content="{TemplateBinding Content}" />
+                        </Border>
+                    </Grid>
+                </Border>
+            </Border>
+        </ControlTemplate>
+    </UserControl.Template>
+
+</UserControl>

@@ -1,0 +1,38 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:layout="clr-namespace:PlowTracer.GUI.Views.Controls.Layout"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="PlowTracer.GUI.Views.Controls.Layout.CardTitleHeader">
+    
+    <UserControl.Template>
+        <ControlTemplate TargetType="layout:CardTitleHeader">
+            <Border Padding="8, 4">
+                <Grid ColumnDefinitions="Auto, *">
+                    <layout:IconLabel Classes="cardTitle"
+                                      Grid.Column="0"
+                                      IconKind="{TemplateBinding IconKind}"
+                                      Text="{TemplateBinding Title}"/>
+                    <Button Grid.Column="1"
+                            Command="{TemplateBinding FunctionButtonCommand}">
+                        <Button.IsVisible>
+                            <MultiBinding Converter="{x:Static BoolConverters.Or}">
+                                <TemplateBinding Property="FunctionButtonCommand" Converter="{x:Static ObjectConverters.IsNotNull}" />
+                                <TemplateBinding Property="FunctionButtonFlyout" Converter="{x:Static ObjectConverters.IsNotNull}" />
+                            </MultiBinding>
+                        </Button.IsVisible>
+                        <Button.Flyout>
+                            <TemplateBinding Property="FunctionButtonFlyout" />
+                        </Button.Flyout>
+                        <avalonia:MaterialIcon Kind="EllipsisHorizontal"
+                                               Width="24"
+                                               Height="24" />
+                    </Button>
+                </Grid>
+            </Border>
+        </ControlTemplate>
+    </UserControl.Template>
+    
+</UserControl>

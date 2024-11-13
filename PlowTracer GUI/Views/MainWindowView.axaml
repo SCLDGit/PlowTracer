@@ -1,0 +1,155 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:PlowTracer.GUI.ViewModels"
+        xmlns:app="clr-namespace:PlowTracer.GUI"
+        xmlns:materialIcon="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:logMessages="clr-namespace:PlowTracer.GUI.Models.DataStructures.Logging.LogMessages"
+        xmlns:events="clr-namespace:Serilog.Events;assembly=Serilog"
+        xmlns:layout="clr-namespace:PlowTracer.GUI.Views.Controls.Layout"
+        xmlns:views="clr-namespace:PlowTracer.GUI.Views"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Width="1366" Height="768"
+        x:Class="PlowTracer.GUI.Views.MainWindowView"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="PlowTracer GUI"
+        Padding="8"
+        x:DataType="viewModels:MainWindowViewModel"
+        DataContext="{ReflectionBinding MainWindowViewModel, Source={x:Static app:PlowTracerGuiApplication.ViewModelLocator}}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="7" />
+            <RowDefinition Height=".2*"
+                           MaxHeight="200" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="500" />
+                <ColumnDefinition Width="7" />
+                <ColumnDefinition Width="Auto" MinWidth="250" />
+            </Grid.ColumnDefinitions>
+            <layout:InsetContainer Grid.Column="0"
+                                   CornerRadius="{StaticResource ContainerRadius}"
+                                   Background="Transparent">
+                <views:RenderView />
+            </layout:InsetContainer>
+            <GridSplitter Grid.Column="1"
+                          Classes="vertical" />
+            <Grid Grid.Column="2" 
+                  RowDefinitions="*, Auto">
+                <layout:InsetContainer Grid.Row="0" 
+                                       Padding="4"
+                                       CornerRadius="{StaticResource ContainerRadius}"
+                                       Background="Transparent">
+                    <views:RenderSettingsView />
+                </layout:InsetContainer>
+                <Button Grid.Row="1"
+                        Margin="0, 4, 0, 0"
+                        Classes="standard"
+                        Command="{Binding ClickRender}">
+                    <layout:IconLabel IconKind="ImageArea" 
+                                      Text="Render"/>
+                </Button>
+            </Grid>
+        </Grid>
+        <GridSplitter Grid.Row="1"
+                      Classes="horizontal" />
+        <layout:InsetContainer Grid.Row="2"
+                               CornerRadius="{StaticResource ContainerRadius}"
+                               ShadowDepth="2">
+            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     Background="Transparent"
+                     AutoScrollToSelectedItem="True"
+                     SelectionMode="Multiple"
+                     ItemsSource="{Binding LogMessages}">
+                <ListBox.Styles>
+                    <Style Selector="ListBoxItem">
+                        <Setter Property="Padding" Value="0"></Setter>
+                    </Style>
+                </ListBox.Styles>
+                <ListBox.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuItem Header="Copy Message..."
+                                  CommandParameter="{Binding $parent[Window]}" />
+                    </MenuFlyout>
+                </ListBox.ContextFlyout>
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="logMessages:ActivityLogMessage">
+                        <Grid ColumnDefinitions="Auto, *"
+                              Margin="4, 3">
+                            <Grid.Styles>
+                                <Style Selector="materialIcon|MaterialIcon">
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                </Style>
+                                <Style Selector="materialIcon|MaterialIcon.debug">
+                                    <Setter Property="Kind" Value="Bug" />
+                                    <Setter Property="Foreground" Value="DarkCyan" />
+                                </Style>
+                                <Style Selector="materialIcon|MaterialIcon.information">
+                                    <Setter Property="Kind" Value="Information" />
+                                    <Setter Property="Foreground" Value="DodgerBlue" />
+                                </Style>
+                                <Style Selector="materialIcon|MaterialIcon.warning">
+                                    <Setter Property="Kind" Value="Alert" />
+                                    <Setter Property="Foreground" Value="DarkGoldenrod" />
+                                </Style>
+                                <Style Selector="materialIcon|MaterialIcon.error">
+                                    <Setter Property="Kind" Value="AlertCircle" />
+                                    <Setter Property="Foreground" Value="IndianRed" />
+                                </Style>
+                                <Style Selector="materialIcon|MaterialIcon.fatal">
+                                    <Setter Property="Kind" Value="AlertOctagon" />
+                                    <Setter Property="Foreground" Value="DarkRed" />
+                                </Style>
+
+                                <Style Selector="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                </Style>
+                                <Style Selector="TextBlock.debug">
+                                    <Setter Property="Foreground" Value="DarkCyan" />
+                                </Style>
+                                <Style Selector="TextBlock.information">
+                                    <Setter Property="Foreground" Value="DodgerBlue" />
+                                </Style>
+                                <Style Selector="TextBlock.warning">
+                                    <Setter Property="Foreground" Value="DarkGoldenrod" />
+                                </Style>
+                                <Style Selector="TextBlock.error">
+                                    <Setter Property="Foreground" Value="IndianRed" />
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                </Style>
+                                <Style Selector="TextBlock.fatal">
+                                    <Setter Property="Foreground" Value="DarkRed" />
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                </Style>
+                            </Grid.Styles>
+                            <materialIcon:MaterialIcon Grid.Column="0"
+                                                       Classes.debug="{Binding LogLevel, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static events:LogEventLevel.Debug}}"
+                                                       Classes.information="{Binding LogLevel, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static events:LogEventLevel.Information}}"
+                                                       Classes.warning="{Binding LogLevel, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static events:LogEventLevel.Warning}}"
+                                                       Classes.error="{Binding LogLevel, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static events:LogEventLevel.Error}}"
+                                                       Classes.fatal="{Binding LogLevel, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static events:LogEventLevel.Fatal}}"
+                                                       Width="18"
+                                                       Height="{Binding $self.Bounds.Width}" />
+                            <TextBlock Grid.Column="1"
+                                       Classes.debug="{Binding LogLevel, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static events:LogEventLevel.Debug}}"
+                                       Classes.information="{Binding LogLevel, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static events:LogEventLevel.Information}}"
+                                       Classes.warning="{Binding LogLevel, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static events:LogEventLevel.Warning}}"
+                                       Classes.error="{Binding LogLevel, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static events:LogEventLevel.Error}}"
+                                       Classes.fatal="{Binding LogLevel, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static events:LogEventLevel.Fatal}}"
+                                       Margin="4, 0, 0, 0"
+                                       VerticalAlignment="Center"
+                                       FontFamily="Consolas"
+                                       TextWrapping="Wrap"
+                                       Text="{Binding Message}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </layout:InsetContainer>
+    </Grid>
+
+</Window>

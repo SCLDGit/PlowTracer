@@ -3,7 +3,17 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="PlowTracer GUI/PlowTracerGuiApplication.axaml" value="PlowTracer GUI/PlowTracer GUI.csproj" />
+        <entry key="PlowTracer GUI/Views/Controls/Layout/CardContainer.axaml" value="PlowTracer GUI/PlowTracer GUI.csproj" />
+        <entry key="PlowTracer GUI/Views/Controls/Layout/CardTitleHeader.axaml" value="PlowTracer GUI/PlowTracer GUI.csproj" />
+        <entry key="PlowTracer GUI/Views/Controls/Layout/IconLabel.axaml" value="PlowTracer GUI/PlowTracer GUI.csproj" />
+        <entry key="PlowTracer GUI/Views/Controls/Layout/InsetContainer.axaml" value="PlowTracer GUI/PlowTracer GUI.csproj" />
+        <entry key="PlowTracer GUI/Views/Controls/Layout/LayoutGroup.axaml" value="PlowTracer GUI/PlowTracer GUI.csproj" />
+        <entry key="PlowTracer GUI/Views/Controls/Layout/LayoutItem.axaml" value="PlowTracer GUI/PlowTracer GUI.csproj" />
         <entry key="PlowTracer GUI/Views/MainWindow.axaml" value="PlowTracer GUI/PlowTracer GUI.csproj" />
+        <entry key="PlowTracer GUI/Views/RenderPanelView.axaml" value="PlowTracer GUI/PlowTracer GUI.csproj" />
+        <entry key="PlowTracer GUI/Views/RenderSettingsView.axaml" value="PlowTracer GUI/PlowTracer GUI.csproj" />
+        <entry key="PlowTracer GUI/Views/RenderView.axaml" value="PlowTracer GUI/PlowTracer GUI.csproj" />
         <entry key="PlowTracer/Views/MainWindow.axaml" value="PlowTracer/PlowTracer.csproj" />
       </map>
     </option>
