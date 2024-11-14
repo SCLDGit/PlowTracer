@@ -71,7 +71,7 @@ public class SurfaceNormalTestKernel : IRenderKernel
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private Vector3 GetPixelColor(ref Ray p_ray, Scene p_scene)
+    private static Vector3 GetPixelColor(ref Ray p_ray, Scene p_scene)
     {
         var intersection = p_scene.GetIntersection(ref p_ray);
         
