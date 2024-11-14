@@ -51,7 +51,8 @@ internal class MainWindowViewModel : ViewModelBase
     [Reactive] public bool RenderIsRunning { get; set; }
     
     public AvaloniaList<IRenderKernel> RenderKernels { get; } = [new ColorOutputTestKernel(),
-                                                                    new RayTestKernel()];
+                                                                    new RayTestKernel(),
+                                                                    new SphereTestKernel()];
 
     [Reactive] public IRenderKernel SelectedRenderKernel { get; set; }
     
@@ -91,7 +92,7 @@ internal class MainWindowViewModel : ViewModelBase
         
             ResetOutputImage();
         
-            m_logger.LogDebug(LogMessageType.ACTIVITY, $"Rendered in {stopwatch.ElapsedMilliseconds}ms");
+            m_logger.LogInformation(LogMessageType.ACTIVITY, $"Rendered in {stopwatch.ElapsedMilliseconds}ms");
         
             if ( OutputImage is not WriteableBitmap outputImage ) return;
         
