@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Media.Imaging;
+using Avalonia.Metadata;
 using Avalonia.Platform;
 
 using Microsoft.Extensions.Logging;
@@ -47,7 +48,10 @@ internal class MainWindowViewModel : ViewModelBase
     
     public AvaloniaList<IConsoleLogMessage> LogMessages { get; } = [];
 
-    public AvaloniaList<IRenderKernel> RenderKernels { get; } = [new ColorOutputTestKernel()];
+    [Reactive] public bool RenderIsRunning { get; set; }
+    
+    public AvaloniaList<IRenderKernel> RenderKernels { get; } = [new ColorOutputTestKernel(),
+                                                                    new RayTestKernel()];
 
     [Reactive] public IRenderKernel SelectedRenderKernel { get; set; }
     
@@ -63,9 +67,10 @@ internal class MainWindowViewModel : ViewModelBase
         OutputImage = new WriteableBitmap(new PixelSize(RenderWidth, RenderHeight), new Vector(96, 96), PixelFormat.Rgba8888, AlphaFormat.Premul);
     }
 
+    [DependsOn(nameof(RenderIsRunning))]
     public bool CanClickRender(object? p_parameter)
     {
-        return true;
+        return !RenderIsRunning;
     }
     
     public async Task ClickRender()
@@ -76,18 +81,27 @@ internal class MainWindowViewModel : ViewModelBase
         
         var stopwatch = Stopwatch.StartNew();
         
-        var result = await SelectedRenderKernel.Render(new RenderSettings(RenderWidth, RenderHeight));
-
-        stopwatch.Stop();
+        try
+        {
+            RenderIsRunning = true;
+            
+            var result = await SelectedRenderKernel.Render(new RenderSettings(RenderWidth, RenderHeight));
+            
+            stopwatch.Stop();
         
-        ResetOutputImage();
+            ResetOutputImage();
         
-        m_logger.LogDebug(LogMessageType.ACTIVITY, $"Rendered in {stopwatch.ElapsedMilliseconds}ms");
+            m_logger.LogDebug(LogMessageType.ACTIVITY, $"Rendered in {stopwatch.ElapsedMilliseconds}ms");
         
-        if ( OutputImage is not WriteableBitmap outputImage ) return;
+            if ( OutputImage is not WriteableBitmap outputImage ) return;
         
-        using var lockedBitmap = outputImage.Lock();
+            using var lockedBitmap = outputImage.Lock();
         
-        Marshal.Copy(result.Data, 0, new IntPtr(lockedBitmap.Address.ToInt64()), result.Data.Length);
+            Marshal.Copy(result.Data, 0, new IntPtr(lockedBitmap.Address.ToInt64()), result.Data.Length);
+        }
+        finally
+        {
+            RenderIsRunning = false;
+        }
     }
 }
