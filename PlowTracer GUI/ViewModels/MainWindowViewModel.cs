@@ -53,7 +53,7 @@ internal class MainWindowViewModel : ViewModelBase
     public AvaloniaList<IRenderKernel> RenderKernels { get; } = [new ColorOutputTestKernel(),
                                                                     new RayTestKernel(),
                                                                     new SphereTestKernel(),
-                                                                new SurfaceNormalTestKernel()];
+                                                                    new SurfaceNormalTestKernel()];
 
     [Reactive] public IRenderKernel SelectedRenderKernel { get; set; }
     
