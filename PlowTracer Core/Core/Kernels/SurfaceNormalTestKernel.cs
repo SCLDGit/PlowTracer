@@ -43,7 +43,7 @@ public class SurfaceNormalTestKernel : IRenderKernel
 
         const byte alpha = 0xFF;
 
-        var index = 0; // Start at beginning of array
+        var resultDataIndex = 0; // Image format is a flat array, so start at 0 index and count up for each inserted value. - Comment by Matt Heimlich on 11/14/2024 @ 16:55:27
 
         for ( var row = 0; row < p_settings.Height; ++row )
         {
@@ -60,10 +60,10 @@ public class SurfaceNormalTestKernel : IRenderKernel
                 var formattedGreen = (int)MathF.Round(255 * pixelColor.Y, MidpointRounding.AwayFromZero);
                 var formattedBlue  = (int)MathF.Round(255 * pixelColor.Z, MidpointRounding.AwayFromZero);
 
-                renderResult.Data[index++] = (byte)formattedRed;
-                renderResult.Data[index++] = (byte)formattedGreen;
-                renderResult.Data[index++] = (byte)formattedBlue;
-                renderResult.Data[index++] = alpha;
+                renderResult.Data[resultDataIndex++] = (byte)formattedRed;
+                renderResult.Data[resultDataIndex++] = (byte)formattedGreen;
+                renderResult.Data[resultDataIndex++] = (byte)formattedBlue;
+                renderResult.Data[resultDataIndex++] = alpha;
             }
         }
 

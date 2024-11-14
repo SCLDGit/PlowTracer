@@ -12,13 +12,9 @@ internal record struct IntersectionRecord(Vector3 Point, float Distance, bool In
     
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal IntersectionRecord WithFaceNormal(Ray p_ray, Vector3 p_normal)
+    internal void SetNormal(Ray p_ray, Vector3 p_normal)
     {
         IsFrontFacing = Vector3.Dot(p_ray.Direction, p_normal) < 0;
-
-        return this with
-               {
-                   Normal = IsFrontFacing ? p_normal : -p_normal,
-               };
+        Normal        = IsFrontFacing ? p_normal : -p_normal;
     }
 }

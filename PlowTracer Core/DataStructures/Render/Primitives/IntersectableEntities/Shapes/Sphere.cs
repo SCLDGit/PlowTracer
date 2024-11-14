@@ -43,7 +43,7 @@ internal class Sphere(Vector3 c_center, float c_radius) : IIntersectable
         
         var intersectionRecord = new IntersectionRecord(intersectionPoint, intersectionDistance, true);
         
-        intersectionRecord = intersectionRecord.WithFaceNormal(p_ray, intersectionNormal);
+        intersectionRecord.SetNormal(p_ray, intersectionNormal);
         
         return intersectionRecord;
     }
