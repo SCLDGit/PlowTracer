@@ -86,6 +86,6 @@ public class SphereTestKernel : IRenderKernel
 
     public override string ToString()
     {
-        return "Sphere Text";
+        return "Sphere Test";
     }
 }
