@@ -52,7 +52,8 @@ internal class MainWindowViewModel : ViewModelBase
     
     public AvaloniaList<IRenderKernel> RenderKernels { get; } = [new ColorOutputTestKernel(),
                                                                     new RayTestKernel(),
-                                                                    new SphereTestKernel()];
+                                                                    new SphereTestKernel(),
+                                                                    new SurfaceNormalTestKernel()];
 
     [Reactive] public IRenderKernel SelectedRenderKernel { get; set; }
     
@@ -69,6 +70,7 @@ internal class MainWindowViewModel : ViewModelBase
     }
 
     [DependsOn(nameof(RenderIsRunning))]
+    // ReSharper disable once UnusedMember.Global
     public bool CanClickRender(object? p_parameter)
     {
         return !RenderIsRunning;
@@ -86,7 +88,7 @@ internal class MainWindowViewModel : ViewModelBase
         {
             RenderIsRunning = true;
             
-            var result = await SelectedRenderKernel.Render(new RenderSettings(RenderWidth, RenderHeight));
+            using var result = await SelectedRenderKernel.Render(new RenderSettings(RenderWidth, RenderHeight));
             
             stopwatch.Stop();
         
@@ -98,7 +100,7 @@ internal class MainWindowViewModel : ViewModelBase
         
             using var lockedBitmap = outputImage.Lock();
         
-            Marshal.Copy(result.Data, 0, new IntPtr(lockedBitmap.Address.ToInt64()), result.Data.Length);
+            Marshal.Copy(result.Data, 0, new IntPtr(lockedBitmap.Address.ToInt64()), result.DataSize);
         }
         finally
         {

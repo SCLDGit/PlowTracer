@@ -1,13 +1,19 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
+using System.Runtime.CompilerServices;
+
+using PlowTracer.Core.DataStructures.Math.Primitives;
 
 namespace PlowTracer.Core.DataStructures.Render.Primitives;
 
-public readonly struct Ray(Vector3 c_origin, Vector3 c_direction)
+internal readonly struct Ray(Vector3 c_origin, Vector3 c_direction, float c_minimumIntersectionDistance = 0.0f, float c_maximumIntersectionDistance = float.PositiveInfinity)
 {
-    public Vector3 Origin    { get; } = c_origin;
-    public Vector3 Direction { get; } = c_direction;
+    internal Vector3    Origin                      { get; } = c_origin;
+    internal Vector3    Direction                   { get; } = c_direction;
+    internal Interval<float> IntersectionRange           { get; } = new (c_minimumIntersectionDistance, c_maximumIntersectionDistance);
 
-    public Vector3 GetPointAt(float p_distance)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal Vector3 GetPointAt(float p_distance)
     {
         return Origin + Direction * p_distance;
     }
