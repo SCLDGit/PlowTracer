@@ -88,7 +88,7 @@ internal class MainWindowViewModel : ViewModelBase
         {
             RenderIsRunning = true;
             
-            var result = await SelectedRenderKernel.Render(new RenderSettings(RenderWidth, RenderHeight));
+            using var result = await SelectedRenderKernel.Render(new RenderSettings(RenderWidth, RenderHeight));
             
             stopwatch.Stop();
         
@@ -100,7 +100,7 @@ internal class MainWindowViewModel : ViewModelBase
         
             using var lockedBitmap = outputImage.Lock();
         
-            Marshal.Copy(result.Data, 0, new IntPtr(lockedBitmap.Address.ToInt64()), result.Data.Length);
+            Marshal.Copy(result.Data, 0, new IntPtr(lockedBitmap.Address.ToInt64()), result.DataSize);
         }
         finally
         {
