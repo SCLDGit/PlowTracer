@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -20,6 +21,8 @@ using PlowTracer.GUI.Models.Enumerations.Logging;
 using PlowTracer.GUI.Models.Extensions.Logging;
 
 using ReactiveUI.Fody.Helpers;
+
+using Vector = Avalonia.Vector;
 
 namespace PlowTracer.GUI.ViewModels;
 
@@ -53,12 +56,20 @@ internal class MainWindowViewModel : ViewModelBase
     public AvaloniaList<IRenderKernel> RenderKernels { get; } = [new ColorOutputTestKernel(),
                                                                     new RayTestKernel(),
                                                                     new SphereTestKernel(),
-                                                                    new SurfaceNormalTestKernel()];
+                                                                    new SurfaceNormalTestKernel(),
+                                                                    new CameraTestKernel()];
 
     [Reactive] public IRenderKernel SelectedRenderKernel { get; set; }
     
     [Reactive] public int RenderWidth  { get; set; } = 1366;
     [Reactive] public int RenderHeight { get; set; } = 768;
+    
+    [Reactive] public float CameraXPosition   { get; set; } = 0.0f;
+    [Reactive] public float CameraYPosition   { get; set; } = 0.0f;
+    [Reactive] public float CameraZPosition   { get; set; } = 0.0f;
+    
+    [Reactive] public float CameraFieldOfView { get; set; } = 90.0f;
+    [Reactive] public float CameraFocalLength { get; set; } = 1.0f;
     
     [Reactive] public required Bitmap OutputImage       { get; set; }
     
@@ -88,7 +99,7 @@ internal class MainWindowViewModel : ViewModelBase
         {
             RenderIsRunning = true;
             
-            using var result = await SelectedRenderKernel.Render(new RenderSettings(RenderWidth, RenderHeight));
+            using var result = await SelectedRenderKernel.Render(new RenderSettings(RenderWidth, RenderHeight, new Vector3(CameraXPosition, CameraYPosition, CameraZPosition), CameraFieldOfView, CameraFocalLength));
             
             stopwatch.Stop();
         
