@@ -11,6 +11,7 @@
         <entry key="PlowTracer GUI/Views/Controls/Layout/LayoutGroup.axaml" value="PlowTracer GUI/PlowTracer GUI.csproj" />
         <entry key="PlowTracer GUI/Views/Controls/Layout/LayoutItem.axaml" value="PlowTracer GUI/PlowTracer GUI.csproj" />
         <entry key="PlowTracer GUI/Views/MainWindow.axaml" value="PlowTracer GUI/PlowTracer GUI.csproj" />
+        <entry key="PlowTracer GUI/Views/MainWindowView.axaml" value="PlowTracer GUI/PlowTracer GUI.csproj" />
         <entry key="PlowTracer GUI/Views/RenderPanelView.axaml" value="PlowTracer GUI/PlowTracer GUI.csproj" />
         <entry key="PlowTracer GUI/Views/RenderSettingsView.axaml" value="PlowTracer GUI/PlowTracer GUI.csproj" />
         <entry key="PlowTracer GUI/Views/RenderView.axaml" value="PlowTracer GUI/PlowTracer GUI.csproj" />

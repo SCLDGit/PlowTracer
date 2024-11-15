@@ -157,6 +157,13 @@
                 <Setter Property="HorizontalAlignment" Value="Left" />
             </Style>
         </Style>
+        
+        <Style Selector="layout|LayoutItem TextBlock">
+            <Setter Property="FontSize" Value="10" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+        </Style>
 
         <Style Selector="Button.standard">
             <Setter Property="HorizontalAlignment" Value="Stretch" />

@@ -37,6 +37,48 @@
                     </layout:LayoutItem>
                 </layout:LayoutGroup>
             </layout:CardContainer>
+            <layout:CardContainer>
+                <layout:CardContainer.HeaderContent>
+                    <layout:CardTitleHeader IconKind="CameraPartyMode"
+                                            Title="Camera" />
+                </layout:CardContainer.HeaderContent>
+                <StackPanel Orientation="Vertical"
+                            Spacing="4">
+                    <layout:CardContainer ShowShadow="False"
+                                          BorderThickness="1">
+                        <layout:CardContainer.HeaderContent>
+                            <layout:CardTitleHeader IconKind="AxisArrow"
+                                                    Title="Origin" />
+                        </layout:CardContainer.HeaderContent>
+                        <layout:LayoutGroup ItemsSpacing="4">
+                            <layout:LayoutItem Label="X:">
+                                <NumericUpDown Value="{Binding CameraXPosition}" />
+                            </layout:LayoutItem>
+                            <layout:LayoutItem Label="Y:">
+                                <NumericUpDown Value="{Binding CameraYPosition}" />
+                            </layout:LayoutItem>
+                            <layout:LayoutItem Label="Z:">
+                                <NumericUpDown Value="{Binding CameraZPosition}" />
+                            </layout:LayoutItem>
+                        </layout:LayoutGroup>
+                    </layout:CardContainer>
+                    <layout:CardContainer ShowShadow="False"
+                                          BorderThickness="1">
+                        <layout:CardContainer.HeaderContent>
+                            <layout:CardTitleHeader IconKind="FocusField"
+                                                    Title="Optics" />
+                        </layout:CardContainer.HeaderContent>
+                        <layout:LayoutGroup ItemsSpacing="4">
+                            <layout:LayoutItem Label="Focal Length:">
+                                <NumericUpDown Value="{Binding CameraFocalLength}" />
+                            </layout:LayoutItem>
+                            <layout:LayoutItem Label="Field of View:">
+                                <NumericUpDown Value="{Binding CameraFieldOfView}" />
+                            </layout:LayoutItem>
+                        </layout:LayoutGroup>
+                    </layout:CardContainer>
+                </StackPanel>
+            </layout:CardContainer>
         </StackPanel>
     </ScrollViewer>
 

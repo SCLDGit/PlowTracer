@@ -29,7 +29,7 @@ public class RayTestKernel : IRenderKernel
         var pixelDeltaV = viewportV / p_settings.Height;
         
         var viewportUpperLeft = cameraCenter - new Vector3(0, 0, focalLength) - viewportU / 2.0f - viewportV / 2.0f;
-        var pixel100Location = viewportUpperLeft + 0.5f * (pixelDeltaU + pixelDeltaV);
+        var upperLeftPixel = viewportUpperLeft + 0.5f * (pixelDeltaU + pixelDeltaV);
         
         var renderResult = new RenderResult(p_settings.Width, p_settings.Height);
         
@@ -41,7 +41,7 @@ public class RayTestKernel : IRenderKernel
         {
             for (var column = 0; column < p_settings.Width; ++column)
             {
-                var pixelCenter = pixel100Location + column * pixelDeltaU + row * pixelDeltaV;
+                var pixelCenter = upperLeftPixel + column * pixelDeltaU + row * pixelDeltaV;
                 var rayDirection = pixelCenter - cameraCenter;
                 
                 var ray = new Ray(cameraCenter, rayDirection);
