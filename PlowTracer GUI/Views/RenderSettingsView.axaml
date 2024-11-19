@@ -35,8 +35,27 @@
                     <layout:LayoutItem Label="Height:">
                         <NumericUpDown Value="{Binding RenderHeight}" />
                     </layout:LayoutItem>
+                </layout:LayoutGroup>
+            </layout:CardContainer>
+            <layout:CardContainer>
+                <layout:CardContainer.HeaderContent>
+                    <layout:CardTitleHeader IconKind="BlurLinear"
+                                            Title="Sampling" />
+                </layout:CardContainer.HeaderContent>
+                <layout:LayoutGroup ItemsSpacing="4">
                     <layout:LayoutItem Label="Samples:">
                         <NumericUpDown Value="{Binding RenderSamples}" />
+                    </layout:LayoutItem>
+                </layout:LayoutGroup>
+            </layout:CardContainer>
+            <layout:CardContainer>
+                <layout:CardContainer.HeaderContent>
+                    <layout:CardTitleHeader IconKind="LightbulbOnOutline"
+                                            Title="Light Paths" />
+                </layout:CardContainer.HeaderContent>
+                <layout:LayoutGroup ItemsSpacing="4">
+                    <layout:LayoutItem Label="Max Bounces:">
+                        <NumericUpDown Value="{Binding MaxLightBounces}" />
                     </layout:LayoutItem>
                 </layout:LayoutGroup>
             </layout:CardContainer>

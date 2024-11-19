@@ -2,7 +2,8 @@
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
-using PlowTracer.Core.DataStructures.Render.Primitives.IntersectableEntities;
+using PlowTracer.Core.DataStructures.Render.Primitives.Intersection;
+using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.IntersectableEntities;
 using PlowTracer.Core.DataStructures.Render.Settings;
 using PlowTracer.Core.DataStructures.Utilities;
 
@@ -50,20 +51,5 @@ internal readonly record struct ThinLensCamera : ICamera
         var pixelTarget = PixelOrigin + (p_x + offset.X) * PixelOffsetU + (p_y + offset.Y) * PixelOffsetV;
 
         return new Ray(Origin, pixelTarget - Origin);
-    }
-    
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public Vector3 GetPixelColor(ref Ray p_ray)
-    {
-        var intersection = Scene.GetIntersection(ref p_ray);
-        
-        if ( intersection.Intersected )
-        {
-            return 0.5f * ( intersection.Normal + Vector3.One );
-        }
-
-        var unitDirection = Vector3.Normalize(p_ray.Direction);
-        var a             = 0.5f * ( unitDirection.Y + 1.0f );
-        return ( 1.0f - a ) * Vector3.One + a * new Vector3(0.5f, 0.7f, 1.0f);
     }
 }

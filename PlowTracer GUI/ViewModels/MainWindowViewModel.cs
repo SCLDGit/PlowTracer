@@ -52,19 +52,26 @@ internal class MainWindowViewModel : ViewModelBase
     public AvaloniaList<IConsoleLogMessage> LogMessages { get; } = [];
 
     [Reactive] public bool RenderIsRunning { get; set; }
-    
-    public AvaloniaList<IRenderKernel> RenderKernels { get; } = [new ColorOutputTestKernel(),
-                                                                    new RayTestKernel(),
-                                                                    new SphereTestKernel(),
-                                                                    new SurfaceNormalTestKernel(),
-                                                                    new CameraTestKernel(),
-                                                                    new MultisampleTestKernel()];
+
+    public AvaloniaList<IRenderKernel> RenderKernels { get; } =
+        [
+            new ColorOutputTestKernel(),
+            new RayTestKernel(),
+            new SphereTestKernel(),
+            new SurfaceNormalTestKernel(),
+            new CameraTestKernel(),
+            new MultisampleTestKernel(),
+            new MaterialTestKernel()
+        ];
 
     [Reactive] public IRenderKernel SelectedRenderKernel { get; set; }
     
     [Reactive] public int RenderWidth   { get; set; } = 1366;
     [Reactive] public int RenderHeight  { get; set; } = 768;
+    
     [Reactive] public int RenderSamples { get; set; } = 1;
+
+    [Reactive] public int MaxLightBounces { get; set; } = 10;
     
     [Reactive] public float CameraXPosition   { get; set; }
     [Reactive] public float CameraYPosition   { get; set; }
@@ -101,7 +108,7 @@ internal class MainWindowViewModel : ViewModelBase
         {
             RenderIsRunning = true;
             
-            using var result = await SelectedRenderKernel.Render(new RenderSettings(RenderWidth, RenderHeight, RenderSamples, new Vector3(CameraXPosition, CameraYPosition, CameraZPosition), CameraFieldOfView, CameraFocalLength));
+            using var result = await SelectedRenderKernel.Render(new RenderSettings(RenderWidth, RenderHeight, RenderSamples, MaxLightBounces, new Vector3(CameraXPosition, CameraYPosition, CameraZPosition), CameraFieldOfView, CameraFocalLength));
             
             stopwatch.Stop();
         

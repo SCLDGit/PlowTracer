@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace PlowTracer.Core.DataStructures.Render.Primitives.IntersectableEntities;
+namespace PlowTracer.Core.DataStructures.Render.Primitives.Intersection.IntersectableEntities;
 
 internal class Scene(IEnumerable<IIntersectable> c_sceneEntities) : IIntersectable
 {

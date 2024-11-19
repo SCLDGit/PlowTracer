@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-using PlowTracer.Core.DataStructures.Render.Primitives;
+using PlowTracer.Core.DataStructures.Render.Primitives.Intersection;
 using PlowTracer.Core.DataStructures.Render.Result;
 using PlowTracer.Core.DataStructures.Render.Settings;
 
@@ -62,6 +63,7 @@ public class RayTestKernel : IRenderKernel
         return await Task.FromResult(renderResult);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private Vector3 GetPixelColor(Ray p_ray)
     {
         var unitDirection = Vector3.Normalize(p_ray.Direction);

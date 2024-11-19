@@ -8,10 +8,11 @@ using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.Intersectabl
 using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.IntersectableEntities.Shapes;
 using PlowTracer.Core.DataStructures.Render.Result;
 using PlowTracer.Core.DataStructures.Render.Settings;
+using PlowTracer.Core.DataStructures.Utilities;
 
 namespace PlowTracer.Core.Core.Kernels;
 
-public class CameraTestKernel : IRenderKernel
+public class MaterialTestKernel : IRenderKernel
 {
     public async Task<RenderResult> Render(RenderSettings p_settings)
     {
@@ -20,7 +21,7 @@ public class CameraTestKernel : IRenderKernel
                                   new Sphere(new Vector3(0.0f, -100.5f, -1.0f), 100.0f)
                               ]);
 
-        var tracer = new NormalsTracer();
+        var tracer = new LambertianTracer(p_settings.MaxBounces);
 
         var renderResult = new RenderResult(p_settings.Width, p_settings.Height);
 
@@ -30,16 +31,27 @@ public class CameraTestKernel : IRenderKernel
 
         var resultDataIndex = 0; // Image format is a flat array, so start at 0 index and count up for each inserted value. - Comment by Matt Heimlich on 11/14/2024 @ 16:55:27
 
+        var sampleScale = 1.0f / p_settings.Samples;
+        
         for ( var row = 0; row < p_settings.Height; ++row )
         {
             for ( var column = 0; column < p_settings.Width; ++column )
             {
-                var ray = camera.GetRay(column, row);
-                var pixelColor = tracer.GetPixelColor(ref ray, scene);
+                var pixelColor = Vector3.Zero;
+                
+                for ( var sample = 0; sample < p_settings.Samples; ++sample )
+                {
+                    var ray = camera.GetRay(column, row, p_settings.Samples > 1);
+                    pixelColor += tracer.GetPixelColor(ref ray, scene);
+                }
 
-                var formattedRed   = (int)MathF.Round(255 * Math.Clamp(pixelColor.X, 0.0f, 0.999f), MidpointRounding.AwayFromZero);
-                var formattedGreen = (int)MathF.Round(255 * Math.Clamp(pixelColor.Y, 0.0f, 0.999f), MidpointRounding.AwayFromZero);
-                var formattedBlue  = (int)MathF.Round(255 * Math.Clamp(pixelColor.Z, 0.0f, 0.999f), MidpointRounding.AwayFromZero);
+                pixelColor *= sampleScale;
+
+                var correctedPixelColor = ColorUtilities.LinearToGamma(pixelColor);
+
+                var formattedRed   = (int)MathF.Round(255 * Math.Clamp(correctedPixelColor.X, 0.0f, 0.999f), MidpointRounding.AwayFromZero);
+                var formattedGreen = (int)MathF.Round(255 * Math.Clamp(correctedPixelColor.Y, 0.0f, 0.999f), MidpointRounding.AwayFromZero);
+                var formattedBlue  = (int)MathF.Round(255 * Math.Clamp(correctedPixelColor.Z, 0.0f, 0.999f), MidpointRounding.AwayFromZero);
 
                 renderResult.Data[resultDataIndex++] = (byte)formattedRed;
                 renderResult.Data[resultDataIndex++] = (byte)formattedGreen;
@@ -53,6 +65,6 @@ public class CameraTestKernel : IRenderKernel
 
     public override string ToString()
     {
-        return "Camera Test";
+        return "Material Test";
     }
 }
