@@ -57,16 +57,18 @@ internal class MainWindowViewModel : ViewModelBase
                                                                     new RayTestKernel(),
                                                                     new SphereTestKernel(),
                                                                     new SurfaceNormalTestKernel(),
-                                                                    new CameraTestKernel()];
+                                                                    new CameraTestKernel(),
+                                                                    new MultisampleTestKernel()];
 
     [Reactive] public IRenderKernel SelectedRenderKernel { get; set; }
     
-    [Reactive] public int RenderWidth  { get; set; } = 1366;
-    [Reactive] public int RenderHeight { get; set; } = 768;
+    [Reactive] public int RenderWidth   { get; set; } = 1366;
+    [Reactive] public int RenderHeight  { get; set; } = 768;
+    [Reactive] public int RenderSamples { get; set; } = 1;
     
-    [Reactive] public float CameraXPosition   { get; set; } = 0.0f;
-    [Reactive] public float CameraYPosition   { get; set; } = 0.0f;
-    [Reactive] public float CameraZPosition   { get; set; } = 0.0f;
+    [Reactive] public float CameraXPosition   { get; set; }
+    [Reactive] public float CameraYPosition   { get; set; }
+    [Reactive] public float CameraZPosition   { get; set; }
     
     [Reactive] public float CameraFieldOfView { get; set; } = 90.0f;
     [Reactive] public float CameraFocalLength { get; set; } = 1.0f;
@@ -99,7 +101,7 @@ internal class MainWindowViewModel : ViewModelBase
         {
             RenderIsRunning = true;
             
-            using var result = await SelectedRenderKernel.Render(new RenderSettings(RenderWidth, RenderHeight, new Vector3(CameraXPosition, CameraYPosition, CameraZPosition), CameraFieldOfView, CameraFocalLength));
+            using var result = await SelectedRenderKernel.Render(new RenderSettings(RenderWidth, RenderHeight, RenderSamples, new Vector3(CameraXPosition, CameraYPosition, CameraZPosition), CameraFieldOfView, CameraFocalLength));
             
             stopwatch.Stop();
         

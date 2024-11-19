@@ -8,7 +8,7 @@ namespace PlowTracer.Core.DataStructures.Render.Settings;
 
 public readonly record struct RenderSettings
 {
-    public RenderSettings(int p_width, int p_height,
+    public RenderSettings(int p_width, int p_height, int p_samples,
                           Vector3 p_cameraOrigin, float p_cameraFieldOfView, float p_cameraFocalLength)
     {
         if ( p_width < 2 || p_height < 2 )
@@ -18,14 +18,16 @@ public readonly record struct RenderSettings
         
         Width = p_width;
         Height = p_height;
+        Samples = p_samples;
         
         CameraOrigin = p_cameraOrigin;
         CameraFieldOfView = p_cameraFieldOfView;
         CameraFocalLength = p_cameraFocalLength;
     }
     
-    internal int Width { get; }
-    internal int Height { get; }
+    internal int Width   { get; }
+    internal int Height  { get; }
+    internal int Samples { get; }
     
     internal Vector3 CameraOrigin      { get; }
     internal float   CameraFieldOfView { get; }

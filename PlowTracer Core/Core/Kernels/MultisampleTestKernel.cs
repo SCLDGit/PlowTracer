@@ -10,7 +10,7 @@ using PlowTracer.Core.DataStructures.Render.Settings;
 
 namespace PlowTracer.Core.Core.Kernels;
 
-public class CameraTestKernel : IRenderKernel
+public class MultisampleTestKernel : IRenderKernel
 {
     public async Task<RenderResult> Render(RenderSettings p_settings)
     {
@@ -27,12 +27,21 @@ public class CameraTestKernel : IRenderKernel
 
         var resultDataIndex = 0; // Image format is a flat array, so start at 0 index and count up for each inserted value. - Comment by Matt Heimlich on 11/14/2024 @ 16:55:27
 
+        var sampleScale = 1.0f / p_settings.Samples;
+        
         for ( var row = 0; row < p_settings.Height; ++row )
         {
             for ( var column = 0; column < p_settings.Width; ++column )
             {
-                var ray = camera.GetRay(column, row);
-                var pixelColor = camera.GetPixelColor(ref ray);
+                var pixelColor = Vector3.Zero;
+                
+                for ( var sample = 0; sample < p_settings.Samples; ++sample )
+                {
+                    var ray = camera.GetRay(column, row, p_settings.Samples > 1);
+                    pixelColor += camera.GetPixelColor(ref ray);
+                }
+
+                pixelColor *= sampleScale;
 
                 var formattedRed   = (int)MathF.Round(255 * Math.Clamp(pixelColor.X, 0.0f, 0.999f), MidpointRounding.AwayFromZero);
                 var formattedGreen = (int)MathF.Round(255 * Math.Clamp(pixelColor.Y, 0.0f, 0.999f), MidpointRounding.AwayFromZero);
@@ -50,6 +59,6 @@ public class CameraTestKernel : IRenderKernel
 
     public override string ToString()
     {
-        return "Camera Test";
+        return "Multisample Test";
     }
 }

@@ -22,7 +22,7 @@ public class ColorOutputTestKernelTests
     [InlineData(256, 256)]
     public void TEST_CreateRenderSettings(int p_width, int p_height)
     {
-        var renderSettings = new RenderSettings(p_width, p_height, Vector3.Zero, 90, 1);
+        var renderSettings = new RenderSettings(p_width, p_height, 1, Vector3.Zero, 90, 1);
         
         renderSettings.Should().NotBeNull();
         renderSettings.Width.Should().Be(p_width);
@@ -34,7 +34,7 @@ public class ColorOutputTestKernelTests
     {
         var createRenderSettingsAction = () =>
                                          {
-                                             _ = new RenderSettings(1, 1, Vector3.Zero, 90, 1);
+                                             _ = new RenderSettings(1, 1, 1, Vector3.Zero, 90, 1);
                                          };
 
         createRenderSettingsAction.Should().Throw<ArgumentException>();
@@ -51,7 +51,7 @@ public class ColorOutputTestKernelTests
     [InlineData(256, 256)]
     public async Task TEST_Render(int p_width, int p_height)
     {
-        var renderSettings = new RenderSettings(p_width, p_height, Vector3.Zero, 90, 1);
+        var renderSettings = new RenderSettings(p_width, p_height, 1, Vector3.Zero, 90, 1);
 
         var kernel = new ColorOutputTestKernel();
 
