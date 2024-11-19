@@ -35,6 +35,9 @@
                     <layout:LayoutItem Label="Height:">
                         <NumericUpDown Value="{Binding RenderHeight}" />
                     </layout:LayoutItem>
+                    <layout:LayoutItem Label="Samples:">
+                        <NumericUpDown Value="{Binding RenderSamples}" />
+                    </layout:LayoutItem>
                 </layout:LayoutGroup>
             </layout:CardContainer>
             <layout:CardContainer>
