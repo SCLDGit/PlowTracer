@@ -2,9 +2,10 @@
 using System.Numerics;
 using System.Threading.Tasks;
 
+using PlowTracer.Core.Core.Tracers;
 using PlowTracer.Core.DataStructures.Render.Primitives.Camera;
-using PlowTracer.Core.DataStructures.Render.Primitives.IntersectableEntities;
-using PlowTracer.Core.DataStructures.Render.Primitives.IntersectableEntities.Shapes;
+using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.IntersectableEntities;
+using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.IntersectableEntities.Shapes;
 using PlowTracer.Core.DataStructures.Render.Result;
 using PlowTracer.Core.DataStructures.Render.Settings;
 
@@ -18,6 +19,8 @@ public class MultisampleTestKernel : IRenderKernel
                                   new Sphere(new Vector3(0.0f, 0.0f, -1.0f), 0.5f),
                                   new Sphere(new Vector3(0.0f, -100.5f, -1.0f), 100.0f)
                               ]);
+
+        var tracer = new NormalsTracer();
 
         var renderResult = new RenderResult(p_settings.Width, p_settings.Height);
 
@@ -38,7 +41,7 @@ public class MultisampleTestKernel : IRenderKernel
                 for ( var sample = 0; sample < p_settings.Samples; ++sample )
                 {
                     var ray = camera.GetRay(column, row, p_settings.Samples > 1);
-                    pixelColor += camera.GetPixelColor(ref ray);
+                    pixelColor += tracer.GetPixelColor(ref ray, scene);
                 }
 
                 pixelColor *= sampleScale;

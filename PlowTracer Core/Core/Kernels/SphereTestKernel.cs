@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Numerics;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 
-using PlowTracer.Core.DataStructures.Render.Primitives;
+using PlowTracer.Core.DataStructures.Render.Primitives.Intersection;
 using PlowTracer.Core.DataStructures.Render.Result;
 using PlowTracer.Core.DataStructures.Render.Settings;
 

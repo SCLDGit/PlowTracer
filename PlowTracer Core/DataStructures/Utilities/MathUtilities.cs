@@ -19,8 +19,33 @@ internal static class MathUtilities
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal static float NextSingle(this Random p_random, float p_minimum, float p_maximum)
+    {
+        return p_minimum + (p_maximum - p_minimum) * p_random.NextSingle();
+    }
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static Vector2 GetRandomPointInUnitSquare()
     {
         return new Vector2(Random.Shared.NextSingle() - 0.5f, Random.Shared.NextSingle() - 0.5f);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal static Vector3 GetRandomUnitVector()
+    {
+        var z = Random.Shared.NextSingle(-1, 1);
+        var axialDistance = MathF.Sqrt(1 - z * z);
+        var theta = Random.Shared.NextSingle(0, MathF.PI * 2);
+        var x = axialDistance * MathF.Cos(theta);
+        var y = axialDistance * MathF.Sin(theta);
+        return new Vector3(x, y, z);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal static Vector3 GetRandomUnitVectorOnHemisphere(Vector3 p_normal)
+    {
+        var randomUnitSphereVector = GetRandomUnitVector();
+
+        return Vector3.Dot(randomUnitSphereVector, p_normal) > 0.0f ? randomUnitSphereVector : -randomUnitSphereVector;
     }
 }

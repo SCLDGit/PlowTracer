@@ -1,4 +1,4 @@
-﻿namespace PlowTracer.Core.DataStructures.Render.Primitives.IntersectableEntities;
+﻿namespace PlowTracer.Core.DataStructures.Render.Primitives.Intersection.IntersectableEntities;
 
 internal interface IIntersectable
 {

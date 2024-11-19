@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace PlowTracer.Core.DataStructures.Math.Primitives;
 
@@ -10,12 +11,14 @@ internal readonly struct Interval<T>(T c_minimum, T c_maximum) where T : struct,
     
     public T Size => Maximum - Minimum;
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool ContainsInclusive(T p_value)
     {
         return Minimum <= p_value &&
                Maximum >= p_value;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool ContainsExclusive(T p_value)
     {
         return Minimum < p_value &&

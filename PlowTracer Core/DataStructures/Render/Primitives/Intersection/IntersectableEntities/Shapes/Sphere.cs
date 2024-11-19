@@ -2,7 +2,7 @@
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
-namespace PlowTracer.Core.DataStructures.Render.Primitives.IntersectableEntities.Shapes;
+namespace PlowTracer.Core.DataStructures.Render.Primitives.Intersection.IntersectableEntities.Shapes;
 
 internal class Sphere(Vector3 c_center, float c_radius) : IIntersectable
 {

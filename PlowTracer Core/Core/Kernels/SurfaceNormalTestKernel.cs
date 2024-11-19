@@ -3,9 +3,9 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-using PlowTracer.Core.DataStructures.Render.Primitives;
-using PlowTracer.Core.DataStructures.Render.Primitives.IntersectableEntities;
-using PlowTracer.Core.DataStructures.Render.Primitives.IntersectableEntities.Shapes;
+using PlowTracer.Core.DataStructures.Render.Primitives.Intersection;
+using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.IntersectableEntities;
+using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.IntersectableEntities.Shapes;
 using PlowTracer.Core.DataStructures.Render.Result;
 using PlowTracer.Core.DataStructures.Render.Settings;
 
