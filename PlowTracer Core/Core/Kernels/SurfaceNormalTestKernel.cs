@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using PlowTracer.Core.DataStructures.Render.Primitives.Intersection;
 using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.IntersectableEntities;
 using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.IntersectableEntities.Shapes;
+using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.Materials;
 using PlowTracer.Core.DataStructures.Render.Result;
 using PlowTracer.Core.DataStructures.Render.Settings;
 
@@ -35,8 +36,8 @@ public class SurfaceNormalTestKernel : IRenderKernel
         var upperLeftPixel  = viewportUpperLeft + 0.5f                                       * ( pixelDeltaU + pixelDeltaV );
 
         var scene = new Scene([
-                                  new Sphere(new Vector3(0.0f, 0.0f, -1.0f), 0.5f),
-                                  new Sphere(new Vector3(0.0f, -100.5f, -1.0f), 100.0f)
+                                  new Sphere(new Vector3(0.0f, 0.0f, -1.0f), 0.5f, new LambertianDiffuse(Vector3.Zero)),
+                                  new Sphere(new Vector3(0.0f, -100.5f, -1.0f), 100.0f, new LambertianDiffuse(Vector3.Zero))
                               ]);
 
         var renderResult = new RenderResult(p_settings.Width, p_settings.Height);

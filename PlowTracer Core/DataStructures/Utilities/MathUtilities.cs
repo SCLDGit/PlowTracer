@@ -48,4 +48,15 @@ internal static class MathUtilities
 
         return Vector3.Dot(randomUnitSphereVector, p_normal) > 0.0f ? randomUnitSphereVector : -randomUnitSphereVector;
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal static Vector3 GetRefractedVector(Vector3 p_direction, Vector3 p_normal, float p_etaiOverEtat)
+    {
+        var cosineTheta = MathF.Min(Vector3.Dot(-p_direction, p_normal), 1.0f);
+
+        var perpendicularOut = p_etaiOverEtat * ( p_direction + cosineTheta * p_normal );
+        var parallelOut      = -MathF.Sqrt(MathF.Abs(1.0f - perpendicularOut.LengthSquared())) * p_normal;
+
+        return perpendicularOut + parallelOut;
+    }
 }

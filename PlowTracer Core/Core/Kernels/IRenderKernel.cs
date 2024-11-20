@@ -8,5 +8,4 @@ namespace PlowTracer.Core.Core.Kernels;
 public interface IRenderKernel
 {
     public Task<RenderResult> Render(RenderSettings p_settings);
-    public string             ToString();
 }

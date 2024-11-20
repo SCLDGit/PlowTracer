@@ -3,11 +3,10 @@ using System.Runtime.CompilerServices;
 
 using PlowTracer.Core.DataStructures.Render.Primitives.Intersection;
 using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.IntersectableEntities;
-using PlowTracer.Core.DataStructures.Utilities;
 
 namespace PlowTracer.Core.Core.Tracers;
 
-internal class LambertianTracer(int c_maxBounces) : ITracer
+internal class MaterialTracer(int c_maxBounces) : ITracer
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Vector3 GetPixelColor(ref Ray p_ray, Scene p_scene)
@@ -21,9 +20,8 @@ internal class LambertianTracer(int c_maxBounces) : ITracer
         
         if ( intersection.Intersected )
         {
-            var direction  = intersection.Normal + MathUtilities.GetRandomUnitVector();
-            var bouncedRay = new Ray(intersection.Point + intersection.Normal * 0.0001f, direction, p_ray.CurrentDepth + 1);
-            return 0.5f * GetPixelColor(ref bouncedRay, p_scene);
+            var scatter = intersection.Material.Scatter(ref p_ray, ref intersection);
+            return scatter.Attenuation * GetPixelColor(ref scatter.OutRay, p_scene);
         }
 
         var unitDirection = Vector3.Normalize(p_ray.Direction);

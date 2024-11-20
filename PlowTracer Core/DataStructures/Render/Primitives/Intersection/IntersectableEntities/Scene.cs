@@ -9,9 +9,9 @@ internal class Scene(IEnumerable<IIntersectable> c_sceneEntities) : IIntersectab
     private IIntersectable[] Entities { get; } = c_sceneEntities.ToArray();
     
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public IntersectionRecord GetIntersection(ref Ray p_ray)
+    public Intersection GetIntersection(ref Ray p_ray)
     {
-        var closestInterception = IntersectionRecord.Miss;
+        var closestInterception = Intersection.Miss;
         
         foreach ( var entity in Entities )
         {

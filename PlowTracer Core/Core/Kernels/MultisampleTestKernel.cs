@@ -6,6 +6,7 @@ using PlowTracer.Core.Core.Tracers;
 using PlowTracer.Core.DataStructures.Render.Primitives.Camera;
 using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.IntersectableEntities;
 using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.IntersectableEntities.Shapes;
+using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.Materials;
 using PlowTracer.Core.DataStructures.Render.Result;
 using PlowTracer.Core.DataStructures.Render.Settings;
 
@@ -15,9 +16,11 @@ public class MultisampleTestKernel : IRenderKernel
 {
     public async Task<RenderResult> Render(RenderSettings p_settings)
     {
+        
+        
         var scene = new Scene([
-                                  new Sphere(new Vector3(0.0f, 0.0f, -1.0f), 0.5f),
-                                  new Sphere(new Vector3(0.0f, -100.5f, -1.0f), 100.0f)
+                                  new Sphere(new Vector3(0.0f, 0.0f, -1.0f), 0.5f, new LambertianDiffuse(Vector3.Zero)),
+                                  new Sphere(new Vector3(0.0f, -100.5f, -1.0f), 100.0f, new LambertianDiffuse(Vector3.Zero))
                               ]);
 
         var tracer = new NormalsTracer();

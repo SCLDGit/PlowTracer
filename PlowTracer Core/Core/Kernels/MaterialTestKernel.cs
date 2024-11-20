@@ -6,6 +6,7 @@ using PlowTracer.Core.Core.Tracers;
 using PlowTracer.Core.DataStructures.Render.Primitives.Camera;
 using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.IntersectableEntities;
 using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.IntersectableEntities.Shapes;
+using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.Materials;
 using PlowTracer.Core.DataStructures.Render.Result;
 using PlowTracer.Core.DataStructures.Render.Settings;
 using PlowTracer.Core.DataStructures.Utilities;
@@ -16,12 +17,23 @@ public class MaterialTestKernel : IRenderKernel
 {
     public async Task<RenderResult> Render(RenderSettings p_settings)
     {
+        var greenLambertian  = new LambertianDiffuse(new Vector3(0.8f, 0.8f, 0.0f));
+        var blueLambertian = new LambertianDiffuse(new Vector3(0.1f, 0.2f, 0.5f));
+        
+        var bronzeMetal = new Metal(new Vector3(0.8f, 0.6f, 0.2f), 0.8f);
+        
+        var glass  = new Dielectric(new Vector3(0.975f, 0.975f, 0.975f), 1.5f);
+        var bubble = new Dielectric(new Vector3(0.975f, 0.975f, 0.975f), 1.0f / 1.5f);
+        
         var scene = new Scene([
-                                  new Sphere(new Vector3(0.0f, 0.0f, -1.0f), 0.5f),
-                                  new Sphere(new Vector3(0.0f, -100.5f, -1.0f), 100.0f)
+                                  new Sphere(new Vector3(0.0f, 0.0f, -1.2f), 0.5f, blueLambertian),
+                                  new Sphere(new Vector3(0.0f, -100.5f, -1.0f), 100.0f, greenLambertian),
+                                  new Sphere(new Vector3(-1.0f, 0.0f, -1.0f), 0.5f, glass),
+                                  new Sphere(new Vector3(-1.0f, 0.0f, -1.0f), 0.4f, bubble),
+                                  new Sphere(new Vector3(1.0f, 0.0f, -1.0f), 0.5f, bronzeMetal)
                               ]);
 
-        var tracer = new LambertianTracer(p_settings.MaxBounces);
+        var tracer = new MaterialTracer(p_settings.MaxBounces);
 
         var renderResult = new RenderResult(p_settings.Width, p_settings.Height);
 
