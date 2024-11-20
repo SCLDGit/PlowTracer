@@ -13,7 +13,7 @@
             x:Name="RenderPanAndZoom"
             PanButton="Left"
             Stretch="None"
-            ZoomSpeed="1.5"
+            ZoomSpeed="1.1"
             EnableConstrains="True"
             ClipToBounds="True"
             Focusable="True"
@@ -27,61 +27,9 @@
                     </DrawingBrush.Drawing>
                 </DrawingBrush>
             </ZoomBorder.Background>
-            <!-- <ZoomBorder.MinOffsetX> -->
-            <!--     <MultiBinding Converter="{x:Static converters:PanAndZoomConverters.ZoomToOffset}"> -->
-            <!--         <CompiledBinding ElementName="ZoomBorder1" Path="Bounds.Width" /> -->
-            <!--         <CompiledBinding ElementName="ZoomBorder1" Path="ZoomX" /> -->
-            <!--     </MultiBinding> -->
-            <!-- </ZoomBorder.MinOffsetX> -->
-            <!-- <ZoomBorder.MinOffsetY> -->
-            <!--     <MultiBinding Converter="{x:Static converters:PanAndZoomConverters.ZoomToOffset}"> -->
-            <!--         <CompiledBinding ElementName="ZoomBorder1" Path="Bounds.Height" /> -->
-            <!--         <CompiledBinding ElementName="ZoomBorder1" Path="ZoomY" /> -->
-            <!--     </MultiBinding> -->
-            <!-- </ZoomBorder.MinOffsetY> -->
             <Image Source="{Binding  OutputImage}"
                    RenderOptions.BitmapInterpolationMode="None" />
         </ZoomBorder>
-        <!-- <Border Grid.Column="0" -->
-        <!--         Padding="8" -->
-        <!--         HorizontalAlignment="Right" -->
-        <!--         VerticalAlignment="Top" -->
-        <!--         Background="#88000000"> -->
-        <!--     <Grid IsSharedSizeScope="True" -->
-        <!--           RowDefinitions="Auto, Auto, Auto"> -->
-        <!--         <Grid.ColumnDefinitions> -->
-        <!--             <ColumnDefinition Width="Auto" SharedSizeGroup="Label" /> -->
-        <!--             <ColumnDefinition Width="Auto" /> -->
-        <!--         </Grid.ColumnDefinitions> -->
-        <!--         <Grid.Styles> -->
-        <!--             <Style Selector="TextBlock"> -->
-        <!--                 <Setter Property="Foreground" Value="White" /> -->
-        <!--             </Style> -->
-        <!--         </Grid.Styles> -->
-        <!--         <TextBlock Grid.Row="0" -->
-        <!--                    Grid.Column="0" -->
-        <!--                    Text="Resolution: " /> -->
-        <!--         <StackPanel Grid.Row="0" -->
-        <!--                     Grid.Column="1" -->
-        <!--                     Orientation="Horizontal"> -->
-        <!--             <TextBlock Text="{CompiledBinding RenderWidth}" /> -->
-        <!--             <TextBlock Text=" x " /> -->
-        <!--             <TextBlock Text="{CompiledBinding RenderHeight}" /> -->
-        <!--         </StackPanel> -->
-        <!--         <TextBlock Grid.Row="1" -->
-        <!--                    Grid.Column="0" -->
-        <!--                    Text="Samples: " /> -->
-        <!--         <TextBlock Grid.Row="1" -->
-        <!--                    Grid.Column="1" -->
-        <!--                    Text="{CompiledBinding RenderSamples}" /> -->
-        <!--         <TextBlock Grid.Row="2" -->
-        <!--                    Grid.Column="0" -->
-        <!--                    Text="Render Time: " /> -->
-        <!--         <TextBlock Grid.Row="2" -->
-        <!--                    Grid.Column="1" -->
-        <!--                    Text="{CompiledBinding RenderTime}" /> -->
-        <!--     </Grid> -->
-        <!-- </Border> -->
     </Grid>
 
 </UserControl>

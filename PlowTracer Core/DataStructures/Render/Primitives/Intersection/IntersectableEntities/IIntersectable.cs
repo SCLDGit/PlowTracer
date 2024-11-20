@@ -2,5 +2,5 @@
 
 internal interface IIntersectable
 {
-    public IntersectionRecord GetIntersection(ref Ray p_ray);
+    public Intersection GetIntersection(ref Ray p_ray);
 }
