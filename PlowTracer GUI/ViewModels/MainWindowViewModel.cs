@@ -71,11 +71,19 @@ internal class MainWindowViewModel : ViewModelBase
     
     [Reactive] public int RenderSamples { get; set; } = 1;
 
-    [Reactive] public int MaxLightBounces { get; set; } = 10;
+    [Reactive] public int MaxLightBounces { get; set; } = 15;
     
     [Reactive] public float CameraXPosition   { get; set; }
     [Reactive] public float CameraYPosition   { get; set; }
     [Reactive] public float CameraZPosition   { get; set; }
+    
+    [Reactive] public float CameraTargetXPosition { get; set; }
+    [Reactive] public float CameraTargetYPosition { get; set; }
+    [Reactive] public float CameraTargetZPosition { get; set; } = -1.0f;
+    
+    [Reactive] public float CameraUpX { get; set; }
+    [Reactive] public float CameraUpY { get; set; } = 1.0f;
+    [Reactive] public float CameraUpZ { get; set; }
     
     [Reactive] public float CameraFieldOfView { get; set; } = 90.0f;
     [Reactive] public float CameraFocalLength { get; set; } = 1.0f;
@@ -108,7 +116,7 @@ internal class MainWindowViewModel : ViewModelBase
         {
             RenderIsRunning = true;
             
-            using var result = await SelectedRenderKernel.Render(new RenderSettings(RenderWidth, RenderHeight, RenderSamples, MaxLightBounces, new Vector3(CameraXPosition, CameraYPosition, CameraZPosition), CameraFieldOfView, CameraFocalLength));
+            using var result = await SelectedRenderKernel.Render(new RenderSettings(RenderWidth, RenderHeight, RenderSamples, MaxLightBounces, new Vector3(CameraXPosition, CameraYPosition, CameraZPosition), new Vector3(CameraTargetXPosition, CameraTargetYPosition, CameraTargetZPosition), new Vector3(CameraUpX, CameraUpY, CameraUpZ), CameraFieldOfView, CameraFocalLength));
             
             stopwatch.Stop();
         
