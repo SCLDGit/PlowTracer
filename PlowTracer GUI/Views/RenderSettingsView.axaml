@@ -87,6 +87,42 @@
                     <layout:CardContainer ShowShadow="False"
                                           BorderThickness="1">
                         <layout:CardContainer.HeaderContent>
+                            <layout:CardTitleHeader IconKind="AxisArrow"
+                                                    Title="Target" />
+                        </layout:CardContainer.HeaderContent>
+                        <layout:LayoutGroup ItemsSpacing="4">
+                            <layout:LayoutItem Label="X:">
+                                <NumericUpDown Value="{Binding CameraTargetXPosition}" />
+                            </layout:LayoutItem>
+                            <layout:LayoutItem Label="Y:">
+                                <NumericUpDown Value="{Binding CameraTargetYPosition}" />
+                            </layout:LayoutItem>
+                            <layout:LayoutItem Label="Z:">
+                                <NumericUpDown Value="{Binding CameraTargetZPosition}" />
+                            </layout:LayoutItem>
+                        </layout:LayoutGroup>
+                    </layout:CardContainer>
+                    <layout:CardContainer ShowShadow="False"
+                                          BorderThickness="1">
+                        <layout:CardContainer.HeaderContent>
+                            <layout:CardTitleHeader IconKind="AxisArrow"
+                                                    Title="Up Vector" />
+                        </layout:CardContainer.HeaderContent>
+                        <layout:LayoutGroup ItemsSpacing="4">
+                            <layout:LayoutItem Label="X:">
+                                <NumericUpDown Value="{Binding CameraUpX}" />
+                            </layout:LayoutItem>
+                            <layout:LayoutItem Label="Y:">
+                                <NumericUpDown Value="{Binding CameraUpY}" />
+                            </layout:LayoutItem>
+                            <layout:LayoutItem Label="Z:">
+                                <NumericUpDown Value="{Binding CameraUpZ}" />
+                            </layout:LayoutItem>
+                        </layout:LayoutGroup>
+                    </layout:CardContainer>
+                    <layout:CardContainer ShowShadow="False"
+                                          BorderThickness="1">
+                        <layout:CardContainer.HeaderContent>
                             <layout:CardTitleHeader IconKind="FocusField"
                                                     Title="Optics" />
                         </layout:CardContainer.HeaderContent>
