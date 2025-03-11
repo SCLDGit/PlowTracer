@@ -11,12 +11,9 @@ namespace PlowTracer.Core.DataStructures.Render.Primitives.Camera;
 
 internal readonly record struct ThinLensCamera : ICamera
 {
-    internal ThinLensCamera(RenderSettings p_renderSettings, Scene p_scene)
+    internal ThinLensCamera(RenderSettings p_renderSettings)
     {
-        Scene = p_scene;
-        
         Origin = p_renderSettings.CameraOrigin;
-        Target = p_renderSettings.CameraTarget;
         
         var aspectRatio = p_renderSettings.Width / (float)p_renderSettings.Height;
         var fieldOfView = p_renderSettings.CameraFieldOfView;
@@ -28,7 +25,7 @@ internal readonly record struct ThinLensCamera : ICamera
         var viewportHeight = 2              * h * focalLength;
         var viewportWidth  = viewportHeight * aspectRatio;
         
-        var w = Vector3.Normalize(Origin - Target);
+        var w = Vector3.Normalize(Origin - p_renderSettings.CameraTarget);
         var u = Vector3.Normalize(Vector3.Cross(p_renderSettings.CameraUp, w));
         var v = Vector3.Cross(w, u);
 
@@ -42,14 +39,7 @@ internal readonly record struct ThinLensCamera : ICamera
         PixelOrigin = viewportOrigin + 0.5f * (PixelOffsetU + PixelOffsetV);
     }
     
-    public Scene   Scene  { get; }
-
     public Vector3 Origin       { get; }
-    public Vector3 Target       { get; }
-    
-    // private Vector3 U { get; }
-    // private Vector3 V { get; }
-    // public  Vector3 W { get; }
     
     public Vector3 PixelOffsetU { get; }
     public Vector3 PixelOffsetV { get; }

@@ -2,52 +2,64 @@
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
+using PlowTracer.Core.Core.Tracers;
+
 [assembly: InternalsVisibleTo("PlowTracer.Core.Tests")]
 
 namespace PlowTracer.Core.DataStructures.Render.Settings;
 
-public readonly record struct RenderSettings
+public readonly record struct RenderSettings(int     Width,
+                                             int     Height,
+                                             int     Samples,
+                                             int     MaxBounces,
+                                             int     BucketSize,
+                                             Vector3 CameraOrigin,
+                                             Vector3 CameraTarget,
+                                             Vector3 CameraUp,
+                                             float   CameraFieldOfView,
+                                             float   CameraFocalLength,
+                                             ITracer Tracer)
 {
-    public RenderSettings(int     p_width,
-                          int     p_height,
-                          int     p_samples,
-                          int     p_maxBounces,
-                          Vector3 p_cameraOrigin,
-                          Vector3 p_cameraTarget,
-                          Vector3 p_cameraUp,
-                          float   p_cameraFieldOfView,
-                          float   p_cameraFocalLength)
+    public RenderSettings() : this(Width: 1366,
+                                   Height: 768,
+                                   Samples: 16,
+                                   MaxBounces: 5,
+                                   CameraOrigin: new Vector3(0, 0, 0),
+                                   CameraTarget: new Vector3(0, 0, -1),
+                                   CameraUp: new Vector3(0, 1, 0),
+                                   CameraFieldOfView: 60.0f,
+                                   CameraFocalLength: 1.0f,
+                                   Tracer: new NormalsTracer(),
+                                   BucketSize: 32)
     {
-        if ( p_width < 2 || p_height < 2 )
-        {
-            throw new ArgumentException("Width and height must be at least 2");
-        }
-
-        if ( p_maxBounces < 1 )
-        {
-            throw new ArgumentException("Max bounces must be at least 1");
-        }
-
-        Width      = p_width;
-        Height     = p_height;
-        Samples    = p_samples;
-        MaxBounces = p_maxBounces;
-
-        CameraOrigin      = p_cameraOrigin;
-        CameraTarget      = p_cameraTarget;
-        CameraUp          = p_cameraUp;
-        CameraFieldOfView = p_cameraFieldOfView;
-        CameraFocalLength = p_cameraFocalLength;
+        Validate();
     }
+    
+    private void Validate()
+    {
+        if ( Width < 2 )
+        {
+            throw new ArgumentException("Invalid Render Settings: Width must be at least 2");
+        }
 
-    internal int Width      { get; }
-    internal int Height     { get; }
-    internal int Samples    { get; }
-    internal int MaxBounces { get; }
+        if ( Height < 2 )
+        {
+            throw new ArgumentException("Invalid Render Settings: Height must be at least 2");
+        }
 
-    internal Vector3 CameraOrigin      { get; }
-    internal Vector3 CameraTarget      { get; }
-    internal Vector3 CameraUp          { get; }
-    internal float   CameraFieldOfView { get; }
-    internal float   CameraFocalLength { get; }
+        if ( Samples < 1 )
+        {
+            throw new ArgumentException("Invalid Render Settings: Samples must be at least 1");
+        }
+
+        if ( MaxBounces < 1 )
+        {
+            throw new ArgumentException("Invalid Render Settings: Max Bounces must be at least 1");
+        }
+
+        if ( BucketSize < 2 )
+        {
+            throw new ArgumentException("Invalid Render Settings: Bucket size must be at least 2");
+        }
+    }
 }

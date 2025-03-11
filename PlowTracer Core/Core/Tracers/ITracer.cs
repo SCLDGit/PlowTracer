@@ -5,7 +5,7 @@ using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.Intersectabl
 
 namespace PlowTracer.Core.Core.Tracers;
 
-internal interface ITracer
+public interface ITracer
 {
     public Vector3 GetPixelColor(ref Ray p_ray, Scene p_scene);
 }

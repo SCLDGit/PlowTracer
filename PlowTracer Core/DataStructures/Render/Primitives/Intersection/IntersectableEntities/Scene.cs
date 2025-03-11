@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace PlowTracer.Core.DataStructures.Render.Primitives.Intersection.IntersectableEntities;
 
-internal class Scene(IEnumerable<IIntersectable> c_sceneEntities) : IIntersectable
+public class Scene(IEnumerable<IIntersectable> c_sceneEntities) : IIntersectable
 {
     private IIntersectable[] Entities { get; } = c_sceneEntities.ToArray();
     

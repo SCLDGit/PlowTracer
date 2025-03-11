@@ -5,7 +5,7 @@ using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.Materials;
 
 namespace PlowTracer.Core.DataStructures.Render.Primitives.Intersection;
 
-internal record struct Intersection(Vector3 Point, IMaterial Material, float Distance, bool Intersected = false)
+public record struct Intersection(Vector3 Point, IMaterial Material, float Distance, bool Intersected = false)
 {
     internal static Intersection Miss = new(Vector3.Zero, NullMaterial.Instance, float.PositiveInfinity);
     

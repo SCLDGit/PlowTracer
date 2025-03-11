@@ -14,7 +14,7 @@ namespace PlowTracer.Core.Core.Kernels;
 
 public class MultisampleTestKernel : IRenderKernel
 {
-    public async Task<RenderResult> Render(RenderSettings p_settings)
+    public async Task<RenderResult> RenderAsync(RenderSettings p_settings)
     {
         
         
@@ -27,7 +27,7 @@ public class MultisampleTestKernel : IRenderKernel
 
         var renderResult = new RenderResult(p_settings.Width, p_settings.Height);
 
-        var camera = new ThinLensCamera(p_settings, scene);
+        var camera = new ThinLensCamera(p_settings);
         
         const byte alpha  = 0xFF;
 

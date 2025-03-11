@@ -2,7 +2,7 @@
 
 namespace PlowTracer.Core.DataStructures.Render.Primitives.Intersection;
 
-internal record struct ScatterRecord
+public record struct ScatterRecord
 {
     internal ScatterRecord(Ray p_outRay, Vector3 p_attenuation)
     {

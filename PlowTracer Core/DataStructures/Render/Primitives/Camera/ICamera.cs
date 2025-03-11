@@ -7,8 +7,6 @@ namespace PlowTracer.Core.DataStructures.Render.Primitives.Camera;
 
 internal interface ICamera
 {
-    Scene   Scene  { get; }
-    
     Vector3 Origin      { get; }
     
     Vector3 PixelOffsetU { get; }

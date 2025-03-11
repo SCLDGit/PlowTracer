@@ -14,7 +14,7 @@ namespace PlowTracer.Core.Core.Kernels;
 
 public class CameraTestKernel : IRenderKernel
 {
-    public async Task<RenderResult> Render(RenderSettings p_settings)
+    public async Task<RenderResult> RenderAsync(RenderSettings p_settings)
     {
         var scene = new Scene([
                                   new Sphere(new Vector3(0.0f, 0.0f, -1.0f), 0.5f, new LambertianDiffuse(Vector3.Zero)),
@@ -25,7 +25,7 @@ public class CameraTestKernel : IRenderKernel
 
         var renderResult = new RenderResult(p_settings.Width, p_settings.Height);
 
-        var camera = new ThinLensCamera(p_settings, scene);
+        var camera = new ThinLensCamera(p_settings);
         
         const byte alpha  = 0xFF;
 

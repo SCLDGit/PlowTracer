@@ -9,6 +9,15 @@
              AttachedToVisualTree="OnAttached">
     
     <Grid>
+        <!-- <Border Padding="0"  -->
+        <!--         Width="100" -->
+        <!--         Height="100" -->
+        <!--         BorderBrush="Red" -->
+        <!--         BorderThickness="2" -->
+        <!--         ZIndex="1"> -->
+        <!--     <Grid Background="#30ffffff" -->
+        <!--           Effect="blur(10)" /> -->
+        <!-- </Border> -->
         <ZoomBorder
             x:Name="RenderPanAndZoom"
             PanButton="Left"

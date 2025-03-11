@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 using Avalonia;
 using Avalonia.ReactiveUI;
@@ -13,7 +14,7 @@ sealed class Program
     [STAThread]
     public static void Main(string[] p_args)
     {
-        #if DEBUG
+         #if DEBUG
         Environment.SetEnvironmentVariable("DOTNET_ENVIRONMENT", "Development");
         #else
         Environment.SetEnvironmentVariable("DOTNET_ENVIRONMENT", "Production");

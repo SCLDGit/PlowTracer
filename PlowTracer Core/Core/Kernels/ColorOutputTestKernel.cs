@@ -11,7 +11,7 @@ namespace PlowTracer.Core.Core.Kernels;
 
 public class ColorOutputTestKernel : IRenderKernel
 {
-    public async Task<RenderResult> Render(RenderSettings p_settings)
+    public async Task<RenderResult> RenderAsync(RenderSettings p_settings)
     {
         var renderResult = new RenderResult(p_settings.Width, p_settings.Height);
 

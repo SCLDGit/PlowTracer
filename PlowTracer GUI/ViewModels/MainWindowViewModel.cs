@@ -14,6 +14,7 @@ using Avalonia.Platform;
 using Microsoft.Extensions.Logging;
 
 using PlowTracer.Core.Core.Kernels;
+using PlowTracer.Core.Core.Tracers;
 using PlowTracer.Core.DataStructures.Render.Settings;
 using PlowTracer.GUI.Models.DataStructures.Logging;
 using PlowTracer.GUI.Models.DataStructures.Logging.LogMessages;
@@ -61,7 +62,8 @@ internal class MainWindowViewModel : ViewModelBase
             new SurfaceNormalTestKernel(),
             new CameraTestKernel(),
             new MultisampleTestKernel(),
-            new MaterialTestKernel()
+            new MaterialTestKernel(),
+            new BucketRenderKernel()
         ];
 
     [Reactive] public IRenderKernel SelectedRenderKernel { get; set; }
@@ -116,7 +118,7 @@ internal class MainWindowViewModel : ViewModelBase
         {
             RenderIsRunning = true;
             
-            using var result = await SelectedRenderKernel.Render(new RenderSettings(RenderWidth, RenderHeight, RenderSamples, MaxLightBounces, new Vector3(CameraXPosition, CameraYPosition, CameraZPosition), new Vector3(CameraTargetXPosition, CameraTargetYPosition, CameraTargetZPosition), new Vector3(CameraUpX, CameraUpY, CameraUpZ), CameraFieldOfView, CameraFocalLength));
+            using var result = await SelectedRenderKernel.RenderAsync(new RenderSettings(RenderWidth, RenderHeight, RenderSamples, MaxLightBounces, 32, new Vector3(CameraXPosition, CameraYPosition, CameraZPosition), new Vector3(CameraTargetXPosition, CameraTargetYPosition, CameraTargetZPosition), new Vector3(CameraUpX, CameraUpY, CameraUpZ), CameraFieldOfView, CameraFocalLength, new MaterialTracer(MaxLightBounces)));
             
             stopwatch.Stop();
         

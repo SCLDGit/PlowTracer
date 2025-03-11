@@ -40,6 +40,17 @@ internal static class MathUtilities
         var y = axialDistance * MathF.Sin(theta);
         return new Vector3(x, y, z);
     }
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal static Vector2 GetRandomInUnitDisk()
+    {
+        var z             = Random.Shared.NextSingle(-1, 1);
+        var axialDistance = MathF.Sqrt(1 - z * z);
+        var theta         = Random.Shared.NextSingle(0, MathF.PI * 2);
+        var x             = axialDistance * MathF.Cos(theta);
+        var y             = axialDistance * MathF.Sin(theta);
+        return new Vector2(x, y);
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static Vector3 GetRandomUnitVectorOnHemisphere(Vector3 p_normal)

@@ -2,7 +2,7 @@
 
 namespace PlowTracer.Core.DataStructures.Render.Primitives.Intersection.Materials;
 
-internal interface IMaterial
+public interface IMaterial
 {
     public Vector3 Albedo { get; }
     

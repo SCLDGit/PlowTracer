@@ -7,5 +7,5 @@ namespace PlowTracer.Core.Core.Kernels;
 
 public interface IRenderKernel
 {
-    public Task<RenderResult> Render(RenderSettings p_settings);
+    public Task<RenderResult> RenderAsync(RenderSettings p_settings);
 }

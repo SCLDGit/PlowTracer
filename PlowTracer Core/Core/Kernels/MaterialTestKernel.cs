@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using PlowTracer.Core.Core.Tracers;
 using PlowTracer.Core.DataStructures.Render.Primitives.Camera;
 using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.IntersectableEntities;
+using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.IntersectableEntities.Scenes;
 using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.IntersectableEntities.Shapes;
 using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.Materials;
 using PlowTracer.Core.DataStructures.Render.Result;
@@ -15,29 +16,15 @@ namespace PlowTracer.Core.Core.Kernels;
 
 public class MaterialTestKernel : IRenderKernel
 {
-    public async Task<RenderResult> Render(RenderSettings p_settings)
+    public async Task<RenderResult> RenderAsync(RenderSettings p_settings)
     {
-        var greenLambertian  = new LambertianDiffuse(new Vector3(0.8f, 0.8f, 0.0f));
-        var blueLambertian = new LambertianDiffuse(new Vector3(0.1f, 0.2f, 0.5f));
-        
-        var bronzeMetal = new Metal(new Vector3(0.8f, 0.6f, 0.2f), 0.8f);
-        
-        var glass  = new Dielectric(new Vector3(0.975f, 0.975f, 0.975f), 1.5f);
-        var bubble = new Dielectric(new Vector3(0.975f, 0.975f, 0.975f), 1.0f / 1.5f);
-        
-        var scene = new Scene([
-                                  new Sphere(new Vector3(0.0f, 0.0f, -1.2f), 0.5f, blueLambertian),
-                                  new Sphere(new Vector3(0.0f, -100.5f, -1.0f), 100.0f, greenLambertian),
-                                  new Sphere(new Vector3(-1.0f, 0.0f, -1.0f), 0.5f, glass),
-                                  new Sphere(new Vector3(-1.0f, 0.0f, -1.0f), 0.4f, bubble),
-                                  new Sphere(new Vector3(1.0f, 0.0f, -1.0f), 0.5f, bronzeMetal)
-                              ]);
-
         var tracer = new MaterialTracer(p_settings.MaxBounces);
 
         var renderResult = new RenderResult(p_settings.Width, p_settings.Height);
 
-        var camera = new ThinLensCamera(p_settings, scene);
+        var camera = new ThinLensCamera(p_settings);
+
+        var scene = StaticScenes.ThreeSpheresScene();
         
         const byte alpha  = 0xFF;
 
@@ -59,7 +46,7 @@ public class MaterialTestKernel : IRenderKernel
 
                 pixelColor *= sampleScale;
 
-                var correctedPixelColor = ColorUtilities.LinearToGamma(pixelColor);
+                var correctedPixelColor = ColorUtilities.LinearToSrgb(pixelColor);
 
                 var formattedRed   = (int)MathF.Round(255 * Math.Clamp(correctedPixelColor.X, 0.0f, 0.999f), MidpointRounding.AwayFromZero);
                 var formattedGreen = (int)MathF.Round(255 * Math.Clamp(correctedPixelColor.Y, 0.0f, 0.999f), MidpointRounding.AwayFromZero);
@@ -77,6 +64,6 @@ public class MaterialTestKernel : IRenderKernel
 
     public override string ToString()
     {
-        return "Material Test";
+        return "Material Test"; 
     }
 }

@@ -6,7 +6,7 @@
         <AssemblyName>PlowTracer.Core</AssemblyName>
         <RootNamespace>PlowTracer.Core</RootNamespace>
         <Authors>Matt Heimlich</Authors>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
         <WarningsAsErrors>Nullable</WarningsAsErrors>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>

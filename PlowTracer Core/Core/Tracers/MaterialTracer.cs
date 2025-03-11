@@ -6,7 +6,7 @@ using PlowTracer.Core.DataStructures.Render.Primitives.Intersection.Intersectabl
 
 namespace PlowTracer.Core.Core.Tracers;
 
-internal class MaterialTracer(int c_maxBounces) : ITracer
+public class MaterialTracer(int c_maxBounces) : ITracer
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Vector3 GetPixelColor(ref Ray p_ray, Scene p_scene)

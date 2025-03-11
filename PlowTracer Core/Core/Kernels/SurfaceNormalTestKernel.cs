@@ -14,7 +14,7 @@ namespace PlowTracer.Core.Core.Kernels;
 
 public class SurfaceNormalTestKernel : IRenderKernel
 {
-    public async Task<RenderResult> Render(RenderSettings p_settings)
+    public async Task<RenderResult> RenderAsync(RenderSettings p_settings)
     {
         var aspectRatio = (float)p_settings.Width / p_settings.Height;
 
