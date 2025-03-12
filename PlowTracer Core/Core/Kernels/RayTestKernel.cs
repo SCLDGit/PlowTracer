@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace PlowTracer.Core.Core.Kernels;
 
 public class RayTestKernel : IRenderKernel
 {
-    public async Task<RenderResult> RenderAsync(RenderSettings p_settings)
+    public async IAsyncEnumerable<RenderResult> RenderAsync(RenderSettings p_settings)
     {
         var aspectRatio = (float) p_settings.Width / p_settings.Height;
 
@@ -59,8 +60,10 @@ public class RayTestKernel : IRenderKernel
                 renderResult.Data[index++] = alpha;
             }
         }
+
+        yield return renderResult;
         
-        return await Task.FromResult(renderResult);
+        await Task.CompletedTask;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

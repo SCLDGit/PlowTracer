@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@ namespace PlowTracer.Core.Core.Kernels;
 
 public class ColorOutputTestKernel : IRenderKernel
 {
-    public async Task<RenderResult> RenderAsync(RenderSettings p_settings)
+    public async IAsyncEnumerable<RenderResult> RenderAsync(RenderSettings p_settings)
     {
         var renderResult = new RenderResult(p_settings.Width, p_settings.Height);
 
@@ -37,7 +38,9 @@ public class ColorOutputTestKernel : IRenderKernel
             }
         }
         
-        return await Task.FromResult(renderResult);
+        yield return renderResult;
+        
+        await Task.CompletedTask;
     }
 
     public override string ToString()

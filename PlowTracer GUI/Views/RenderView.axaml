@@ -36,7 +36,8 @@
                     </DrawingBrush.Drawing>
                 </DrawingBrush>
             </ZoomBorder.Background>
-            <Image Source="{Binding  OutputImage}"
+            <Image x:Name="RenderTarget" 
+                   Source="{Binding  OutputImage}"
                    RenderOptions.BitmapInterpolationMode="None" />
         </ZoomBorder>
     </Grid>

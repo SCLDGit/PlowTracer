@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace PlowTracer.Core.Core.Kernels;
 
 public class MaterialTestKernel : IRenderKernel
 {
-    public async Task<RenderResult> RenderAsync(RenderSettings p_settings)
+    public async IAsyncEnumerable<RenderResult> RenderAsync(RenderSettings p_settings)
     {
         var tracer = new MaterialTracer(p_settings.MaxBounces);
 
@@ -59,7 +60,9 @@ public class MaterialTestKernel : IRenderKernel
             }
         }
 
-        return await Task.FromResult(renderResult);
+        yield return renderResult;
+        
+        await Task.CompletedTask;
     }
 
     public override string ToString()

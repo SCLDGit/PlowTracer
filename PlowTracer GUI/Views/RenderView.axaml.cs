@@ -14,12 +14,16 @@ public partial class RenderView : UserControl
     {
         InitializeComponent();
     }
+    
 
     public void ResetRenderView()
     {
-        var panAndZoomControl = this.GetControl<ZoomBorder>("RenderPanAndZoom");
-        
-        panAndZoomControl.ResetMatrix();
+        RenderPanAndZoom.ResetMatrix();
+    }
+    
+    public void RefreshRenderTarget()
+    {
+        RenderTarget.InvalidateVisual();
     }
 
     private void OnAttached(object? p_sender, VisualTreeAttachmentEventArgs _)
@@ -27,5 +31,6 @@ public partial class RenderView : UserControl
         if ( DataContext is not MainWindowViewModel mainWindowViewModel ) return;
 
         mainWindowViewModel.ResetRenderPanAndZoom = ResetRenderView;
+        mainWindowViewModel.RefreshRenderTarget  = RefreshRenderTarget;
     }
 }

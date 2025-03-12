@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Threading.Tasks;
 
@@ -14,7 +15,7 @@ namespace PlowTracer.Core.Core.Kernels;
 
 public class CameraTestKernel : IRenderKernel
 {
-    public async Task<RenderResult> RenderAsync(RenderSettings p_settings)
+    public async IAsyncEnumerable<RenderResult> RenderAsync(RenderSettings p_settings)
     {
         var scene = new Scene([
                                   new Sphere(new Vector3(0.0f, 0.0f, -1.0f), 0.5f, new LambertianDiffuse(Vector3.Zero)),
@@ -49,7 +50,9 @@ public class CameraTestKernel : IRenderKernel
             }
         }
 
-        return await Task.FromResult(renderResult);
+        yield return renderResult;
+
+        await Task.CompletedTask;
     }
 
     public override string ToString()

@@ -18,8 +18,8 @@ namespace PlowTracer.Core.Core.Kernels;
 public class BucketRenderKernel : IRenderKernel
 {
     private Scene? Scene { get; set; }
-    
-    public async Task<RenderResult> RenderAsync(RenderSettings p_settings)
+
+    public async IAsyncEnumerable<RenderResult> RenderAsync(RenderSettings p_settings)
     {
         var renderResult = new RenderResult(p_settings.Width, p_settings.Height);
         
@@ -45,7 +45,6 @@ public class BucketRenderKernel : IRenderKernel
                                      {
                                          try
                                          {
-                                             // Process this bucket completely (all samples)
                                              ProcessBucket(bucket, renderResult, camera, p_settings);
                                          }
                                          finally
@@ -53,43 +52,45 @@ public class BucketRenderKernel : IRenderKernel
                                              renderSemaphore.Release();
                                          }
                                      }));
+
+            yield return renderResult;
         }
 
         await Task.WhenAll(renderTasks);
 
-        return renderResult;
+        yield return renderResult;
     }
 
     private void ProcessBucket(RenderBucket p_bucket, RenderResult p_renderResult, ICamera p_camera, RenderSettings p_settings)
     {
-        const byte alpha       = 0xFF;
-        
-        var        sampleScale = 1.0f / p_settings.Samples;
-        
-        for (var row = p_bucket.StartY; row < p_bucket.StartY + p_bucket.Height; ++row)
+        const byte alpha = 0xFF;
+
+        var sampleScale = 1.0f / p_settings.Samples;
+
+        for ( var row = p_bucket.StartY; row < p_bucket.StartY + p_bucket.Height; ++row )
         {
-            for (var col = p_bucket.StartX; col < p_bucket.StartX + p_bucket.Width; ++col)
+            for ( var col = p_bucket.StartX; col < p_bucket.StartX + p_bucket.Width; ++col )
             {
                 var pixelColor = Vector3.Zero;
-                
+
                 // Process all samples for this pixel
-                for (var sample = 0; sample < p_settings.Samples; ++sample)
+                for ( var sample = 0; sample < p_settings.Samples; ++sample )
                 {
                     var ray = p_camera.GetRay(col, row, p_settings.Samples > 1);
                     pixelColor += p_settings.Tracer.GetPixelColor(ref ray, Scene!);
                 }
-                
+
                 pixelColor *= sampleScale;
                 var correctedPixelColor = ColorUtilities.LinearToSrgb(pixelColor);
-                
-                var formattedRed = (int)MathF.Round(255 * Math.Clamp(correctedPixelColor.X, 0.0f, 0.999f), 
+
+                var formattedRed = (int)MathF.Round(255 * Math.Clamp(correctedPixelColor.X, 0.0f, 0.999f),
                                                     MidpointRounding.AwayFromZero);
-                var formattedGreen = (int)MathF.Round(255 * Math.Clamp(correctedPixelColor.Y, 0.0f, 0.999f), 
+                var formattedGreen = (int)MathF.Round(255 * Math.Clamp(correctedPixelColor.Y, 0.0f, 0.999f),
                                                       MidpointRounding.AwayFromZero);
-                var formattedBlue = (int)MathF.Round(255 * Math.Clamp(correctedPixelColor.Z, 0.0f, 0.999f), 
+                var formattedBlue = (int)MathF.Round(255 * Math.Clamp(correctedPixelColor.Z, 0.0f, 0.999f),
                                                      MidpointRounding.AwayFromZero);
-                
-                var resultDataIndex = ((row * p_settings.Width) + col) * 4;
+
+                var resultDataIndex = ( row * p_settings.Width + col ) * 4;
                 p_renderResult.Data[resultDataIndex++] = (byte)formattedRed;
                 p_renderResult.Data[resultDataIndex++] = (byte)formattedGreen;
                 p_renderResult.Data[resultDataIndex++] = (byte)formattedBlue;

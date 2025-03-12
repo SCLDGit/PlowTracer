@@ -21,6 +21,7 @@ using PlowTracer.GUI.Models.DataStructures.Logging.LogMessages;
 using PlowTracer.GUI.Models.Enumerations.Logging;
 using PlowTracer.GUI.Models.Extensions.Logging;
 
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
 using Vector = Avalonia.Vector;
@@ -93,6 +94,7 @@ internal class MainWindowViewModel : ViewModelBase
     [Reactive] public required Bitmap OutputImage       { get; set; }
     
     public Action? ResetRenderPanAndZoom { get; set; }
+    public Action? RefreshRenderTarget  { get; set; }
 
     private void ResetOutputImage()
     {
@@ -114,23 +116,31 @@ internal class MainWindowViewModel : ViewModelBase
         
         var stopwatch = Stopwatch.StartNew();
         
+        ResetOutputImage();
+        
+        RenderIsRunning = true;
+        
         try
         {
-            RenderIsRunning = true;
-            
-            using var result = await SelectedRenderKernel.RenderAsync(new RenderSettings(RenderWidth, RenderHeight, RenderSamples, MaxLightBounces, 32, new Vector3(CameraXPosition, CameraYPosition, CameraZPosition), new Vector3(CameraTargetXPosition, CameraTargetYPosition, CameraTargetZPosition), new Vector3(CameraUpX, CameraUpY, CameraUpZ), CameraFieldOfView, CameraFocalLength, new MaterialTracer(MaxLightBounces)));
-            
-            stopwatch.Stop();
-        
-            ResetOutputImage();
-        
-            m_logger.LogInformation(LogMessageType.ACTIVITY, $"Rendered in {stopwatch.ElapsedMilliseconds}ms");
-        
             if ( OutputImage is not WriteableBitmap outputImage ) return;
-        
-            using var lockedBitmap = outputImage.Lock();
-        
-            Marshal.Copy(result.Data, 0, new IntPtr(lockedBitmap.Address.ToInt64()), result.DataSize);
+
+            await foreach ( var resultUpdate in SelectedRenderKernel.RenderAsync(new RenderSettings(RenderWidth, RenderHeight, RenderSamples, MaxLightBounces, 32,
+                                                                                                    new Vector3(CameraXPosition, CameraYPosition, CameraZPosition),
+                                                                                                    new Vector3(CameraTargetXPosition, CameraTargetYPosition, CameraTargetZPosition),
+                                                                                                    new Vector3(CameraUpX, CameraUpY, CameraUpZ), CameraFieldOfView, CameraFocalLength,
+                                                                                                    new MaterialTracer(MaxLightBounces))) )
+            {
+                using ( var lockedBitmap = outputImage.Lock() )
+                {
+                    Marshal.Copy(resultUpdate.Data, 0, new IntPtr(lockedBitmap.Address.ToInt64()), resultUpdate.DataSize);
+                }
+
+                RefreshRenderTarget?.Invoke();
+            }
+
+            stopwatch.Stop();
+
+            m_logger.LogInformation(LogMessageType.ACTIVITY, $"Rendered in {stopwatch.ElapsedMilliseconds}ms");
         }
         finally
         {

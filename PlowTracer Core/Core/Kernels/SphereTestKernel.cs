@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace PlowTracer.Core.Core.Kernels;
 
 public class SphereTestKernel : IRenderKernel
 {
-    public async Task<RenderResult> RenderAsync(RenderSettings p_settings)
+    public async IAsyncEnumerable<RenderResult> RenderAsync(RenderSettings p_settings)
     {
         var aspectRatio = (float) p_settings.Width / p_settings.Height;
 
@@ -59,7 +60,9 @@ public class SphereTestKernel : IRenderKernel
             }
         }
         
-        return await Task.FromResult(renderResult);
+        yield return renderResult;
+        
+        await Task.CompletedTask;
     }
 
     private Vector3 GetPixelColor(Ray p_ray)
