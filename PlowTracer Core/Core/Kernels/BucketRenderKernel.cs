@@ -31,11 +31,14 @@ public class BucketRenderKernel : IRenderKernel
 
         var threadCount = Environment.ProcessorCount;
 
-        var renderSemaphore = new SemaphoreSlim(threadCount);
+        using var renderSemaphore = new SemaphoreSlim(threadCount);
 
         var bucketQueue = new ConcurrentQueue<RenderBucket>(renderBuckets);
 
         var renderTasks = new List<Task>();
+
+        var lastUpdateTime  = DateTime.MinValue;
+        var updateThreshold = TimeSpan.FromMilliseconds(100);
 
         while ( bucketQueue.TryDequeue(out var bucket) )
         {
@@ -49,11 +52,19 @@ public class BucketRenderKernel : IRenderKernel
                                          }
                                          finally
                                          {
+                                             // ReSharper disable once AccessToDisposedClosure
+                                             // Semaphore is always disposed after all tasks have completed. - Comment by Matt Heimlich on 03/12/2025 @ 12:09:35
                                              renderSemaphore.Release();
                                          }
                                      }));
+            
+            var now = DateTime.Now;
 
+            if ( now - lastUpdateTime <= updateThreshold ) continue;
+            
             yield return renderResult;
+            
+            lastUpdateTime = now;
         }
 
         await Task.WhenAll(renderTasks);

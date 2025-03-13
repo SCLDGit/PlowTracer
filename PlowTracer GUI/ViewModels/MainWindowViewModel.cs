@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 
 using PlowTracer.Core.Core.Kernels;
 using PlowTracer.Core.Core.Tracers;
+using PlowTracer.Core.DataStructures.Render.Result;
 using PlowTracer.Core.DataStructures.Render.Settings;
 using PlowTracer.GUI.Models.DataStructures.Logging;
 using PlowTracer.GUI.Models.DataStructures.Logging.LogMessages;
@@ -64,7 +65,8 @@ internal class MainWindowViewModel : ViewModelBase
             new CameraTestKernel(),
             new MultisampleTestKernel(),
             new MaterialTestKernel(),
-            new BucketRenderKernel()
+            new BucketRenderKernel(),
+            new ProgressiveRenderKernel()
         ];
 
     [Reactive] public IRenderKernel SelectedRenderKernel { get; set; }
@@ -124,12 +126,16 @@ internal class MainWindowViewModel : ViewModelBase
         {
             if ( OutputImage is not WriteableBitmap outputImage ) return;
 
+            RenderResult? currentResult = null;
+            
             await foreach ( var resultUpdate in SelectedRenderKernel.RenderAsync(new RenderSettings(RenderWidth, RenderHeight, RenderSamples, MaxLightBounces, 32,
                                                                                                     new Vector3(CameraXPosition, CameraYPosition, CameraZPosition),
                                                                                                     new Vector3(CameraTargetXPosition, CameraTargetYPosition, CameraTargetZPosition),
                                                                                                     new Vector3(CameraUpX, CameraUpY, CameraUpZ), CameraFieldOfView, CameraFocalLength,
                                                                                                     new MaterialTracer(MaxLightBounces))) )
             {
+                currentResult = resultUpdate;
+                
                 using ( var lockedBitmap = outputImage.Lock() )
                 {
                     Marshal.Copy(resultUpdate.Data, 0, new IntPtr(lockedBitmap.Address.ToInt64()), resultUpdate.DataSize);
@@ -137,6 +143,8 @@ internal class MainWindowViewModel : ViewModelBase
 
                 RefreshRenderTarget?.Invoke();
             }
+            
+            currentResult?.Dispose();
 
             stopwatch.Stop();
 
